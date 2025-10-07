@@ -12,7 +12,23 @@ L.Icon.Default.mergeOptions({
   shadowUrl: 'https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/images/marker-shadow.png',
 });
 
-// Dynamic event type configuration - no more hardcoded types!
+// Event type configuration
+const EVENT_TYPE_CONFIG = {
+  hiking: { color: '#059669', icon: '🥾', label: 'Hiking' },
+  camping: { color: '#0d9488', icon: '⛺', label: 'Camping' },
+  cycling: { color: '#0891b2', icon: '🚴', label: 'Cycling' },
+  sports: { color: '#2563eb', icon: '⚽', label: 'Sports' },
+  workshop: { color: '#7c3aed', icon: '🎨', label: 'Workshop' },
+  festival: { color: '#dc2626', icon: '🎪', label: 'Festival' },
+  climbing: { color: '#ea580c', icon: '🧗', label: 'Climbing' },
+  kayaking: { color: '#0284c7', icon: '🛶', label: 'Kayaking' },
+  running: { color: '#16a34a', icon: '🏃', label: 'Running' }
+};
+
+// Helper function to get event type config
+const getEventTypeConfig = (eventType) => {
+  return EVENT_TYPE_CONFIG[eventType] || EVENT_TYPE_CONFIG.hiking;
+};
 
 // Create custom colored markers for different event types
 const createCustomIcon = (eventType) => {
