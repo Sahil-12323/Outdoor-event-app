@@ -243,6 +243,15 @@ const FreeMapView = ({ events, selectedEvent, onEventSelect, onEventDeselect, on
   const [mapCenter, setMapCenter] = useState([19.0760, 72.8777]); // Mumbai default
   const [filter, setFilter] = useState('all');
 
+  // Calculate event counts for each type
+  const eventCounts = {
+    all: events.length,
+    ...Object.keys(EVENT_TYPE_CONFIG).reduce((acc, type) => {
+      acc[type] = events.filter(event => event.event_type === type).length;
+      return acc;
+    }, {})
+  };
+
   // Get user's location on component mount
   useEffect(() => {
     if (navigator.geolocation) {
