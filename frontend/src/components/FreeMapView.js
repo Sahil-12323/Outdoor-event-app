@@ -537,7 +537,7 @@ const FreeMapView = ({ events, selectedEvent, onEventSelect, onEventDeselect, on
       </div>
 
       {/* Compact Location Info */}
-      <div className="absolute bottom-4 right-4 bg-white/95 backdrop-blur-sm rounded-lg shadow-lg border border-gray-200 px-3 py-2 z-1000">
+      <div className="absolute bottom-4 right-4 bg-white/95 backdrop-blur-sm rounded-lg shadow-lg border border-gray-200 px-3 py-2" style={{ zIndex: 40 }}>
         <div className="text-xs text-gray-500 text-center flex items-center space-x-1">
           <button
             onClick={onLocationRefresh}
