@@ -46,6 +46,7 @@ const EventMarker = ({ event, onJoin, onLeave, onDelete, onShowChat, currentUser
   const config = getEventTypeConfig(event.event_type);
   const isParticipant = event.participants?.includes(currentUserId);
   const isCreator = event.created_by === currentUserId;
+  const hoverTimeoutRef = React.useRef(null);
 
   const formatDate = (dateString) => {
     try {
@@ -62,14 +63,58 @@ const EventMarker = ({ event, onJoin, onLeave, onDelete, onShowChat, currentUser
     }
   };
 
+  const handleMouseEnter = () => {
+    // Clear any pending timeout
+    if (hoverTimeoutRef.current) {
+      clearTimeout(hoverTimeoutRef.current);
+    }
+    onHover(event.id);
+  };
+
+  const handleMouseLeave = () => {
+    // Add a small delay before hiding to prevent flicker
+    hoverTimeoutRef.current = setTimeout(() => {
+      onLeaveHover();
+    }, 100);
+  };
+
+  const handlePopupMouseEnter = () => {
+    // Keep popup visible when mouse is over it
+    if (hoverTimeoutRef.current) {
+      clearTimeout(hoverTimeoutRef.current);
+    }
+  };
+
+  const handlePopupMouseLeave = () => {
+    // Hide popup when mouse leaves it
+    onLeaveHover();
+  };
+
+  const handleClosePopup = () => {
+    // Clear timeout and close immediately
+    if (hoverTimeoutRef.current) {
+      clearTimeout(hoverTimeoutRef.current);
+    }
+    onLeaveHover();
+  };
+
+  // Cleanup timeout on unmount
+  React.useEffect(() => {
+    return () => {
+      if (hoverTimeoutRef.current) {
+        clearTimeout(hoverTimeoutRef.current);
+      }
+    };
+  }, []);
+
   return (
     <>
       <Marker 
         position={[event.location.lat, event.location.lng]} 
         icon={createCustomIcon(event.event_type)}
         eventHandlers={{
-          mouseover: () => onHover(event.id),
-          mouseout: () => onLeaveHover()
+          mouseover: handleMouseEnter,
+          mouseout: handleMouseLeave
         }}
       />
       
@@ -99,8 +144,8 @@ const EventMarker = ({ event, onJoin, onLeave, onDelete, onShowChat, currentUser
               marginLeft: '-160px',
               zIndex: 9999999
             }}
-            onMouseEnter={() => onHover(event.id)}
-            onMouseLeave={onLeaveHover}
+            onMouseEnter={handlePopupMouseEnter}
+            onMouseLeave={handlePopupMouseLeave}
           >
           {/* Header */}
           <div className="flex items-start justify-between mb-3">
@@ -111,7 +156,7 @@ const EventMarker = ({ event, onJoin, onLeave, onDelete, onShowChat, currentUser
               </span>
             </div>
             <button
-              onClick={onLeaveHover}
+              onClick={handleClosePopup}
               className="text-gray-400 hover:text-gray-600 p-1 rounded-full hover:bg-gray-100 transition-colors"
             >
               ✕
@@ -173,7 +218,7 @@ const EventMarker = ({ event, onJoin, onLeave, onDelete, onShowChat, currentUser
                 <button
                   onClick={() => {
                     onShowChat(event);
-                    onLeaveHover();
+                    handleClosePopup();
                   }}
                   className="px-4 py-2 bg-gradient-to-r from-blue-500 to-blue-600 hover:from-blue-600 hover:to-blue-700 text-white text-sm rounded-lg font-medium transition-all transform hover:scale-105 shadow-md"
                   data-testid="chat-btn"
@@ -188,7 +233,7 @@ const EventMarker = ({ event, onJoin, onLeave, onDelete, onShowChat, currentUser
                   <button
                     onClick={() => {
                       onJoin(event.id);
-                      onLeaveHover();
+                      handleClosePopup();
                     }}
                     className="flex-1 px-3 py-2 bg-gradient-to-r from-emerald-500 to-emerald-600 hover:from-emerald-600 hover:to-emerald-700 text-white text-sm rounded-lg font-medium transition-all transform hover:scale-105 shadow-md"
                     data-testid="join-event-btn"
@@ -199,7 +244,7 @@ const EventMarker = ({ event, onJoin, onLeave, onDelete, onShowChat, currentUser
                   <button
                     onClick={() => {
                       onLeave(event.id);
-                      onLeaveHover();
+                      handleClosePopup();
                     }}
                     className="flex-1 px-3 py-2 bg-gradient-to-r from-red-500 to-red-600 hover:from-red-600 hover:to-red-700 text-white text-sm rounded-lg font-medium transition-all transform hover:scale-105 shadow-md"
                     data-testid="leave-event-btn"
@@ -212,7 +257,7 @@ const EventMarker = ({ event, onJoin, onLeave, onDelete, onShowChat, currentUser
                   <button
                     onClick={() => {
                       onShowChat(event);
-                      onLeaveHover();
+                      handleClosePopup();
                     }}
                     className="px-4 py-2 bg-gradient-to-r from-blue-500 to-blue-600 hover:from-blue-600 hover:to-blue-700 text-white text-sm rounded-lg font-medium transition-all transform hover:scale-105 shadow-md"
                     data-testid="chat-btn"
