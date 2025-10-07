@@ -314,7 +314,6 @@ function App() {
                   )}
                 </main>
               </div>
-            </APIProvider>
           )}
           <Toaster position="top-right" />
         </div>
