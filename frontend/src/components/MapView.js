@@ -186,7 +186,7 @@ const MapControls = ({ onFilterChange, selectedFilter }) => {
 
 const MapView = ({ events, selectedEvent, onEventSelect, onEventDeselect, onShowChat }) => {
   const { user, joinEvent, leaveEvent } = useAuth();
-  const [mapCenter, setMapCenter] = useState({ lat: 37.7749, lng: -122.4194 }); // San Francisco default
+  const [mapCenter, setMapCenter] = useState({ lat: 19.0760, lng: 72.8777 }); // Mumbai default
   const [mapZoom, setMapZoom] = useState(10);
   const [filter, setFilter] = useState('all');
 
