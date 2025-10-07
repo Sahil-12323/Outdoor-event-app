@@ -460,30 +460,16 @@ function App() {
 
                       {/* Action Buttons */}
                       <div className="flex items-center space-x-4">
-                        {/* Enhanced Create Event Button */}
+                        {/* Create Event Button */}
                         <button
                           onClick={() => setShowEventForm(true)}
-                          className="group relative overflow-hidden bg-gradient-to-br from-yellow-400 via-orange-500 to-red-500 hover:from-yellow-300 hover:via-orange-400 hover:to-red-400 text-white px-8 py-4 rounded-3xl font-bold transition-all duration-300 flex items-center space-x-3 shadow-2xl hover:shadow-orange-500/50 transform hover:scale-110 hover:-translate-y-1 stylish-create-button"
+                          className="group relative overflow-hidden bg-white/20 hover:bg-white/30 backdrop-blur-sm text-white px-6 py-3 rounded-2xl font-semibold transition-all duration-300 flex items-center space-x-2 border border-white/30 shadow-lg hover:shadow-xl transform hover:scale-105"
                           data-testid="create-event-btn"
                         >
-                          {/* Animated gradient overlay */}
-                          <div className="absolute inset-0 bg-gradient-to-r from-white/30 via-transparent to-white/30 opacity-0 group-hover:opacity-100 transition-opacity duration-500 animate-shimmer"></div>
-                          
-                          {/* Glowing border effect */}
-                          <div className="absolute inset-0 rounded-3xl bg-gradient-to-r from-yellow-400 to-red-500 blur-sm opacity-60 group-hover:opacity-80 transition-opacity duration-300"></div>
-                          
-                          {/* Button content */}
-                          <div className="relative flex items-center space-x-3">
-                            <span className="text-2xl animate-bounce">🚀</span>
-                            <div className="flex flex-col items-start">
-                              <span className="hidden sm:inline text-lg leading-tight tracking-wide">Create Event</span>
-                              <span className="sm:hidden text-lg leading-tight tracking-wide">Create</span>
-                              <span className="hidden sm:inline text-xs opacity-90 font-medium">Start your adventure!</span>
-                            </div>
-                          </div>
-                          
-                          {/* Pulse effect */}
-                          <div className="absolute inset-0 rounded-3xl bg-white/20 opacity-0 group-hover:opacity-100 group-hover:animate-ping transition-opacity duration-300"></div>
+                          <div className="absolute inset-0 bg-gradient-to-r from-white/20 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
+                          <span className="relative text-lg">✨</span>
+                          <span className="relative hidden sm:inline">Create Event</span>
+                          <span className="relative sm:hidden">Create</span>
                         </button>
 
                         {/* User Profile - Round Button */}
