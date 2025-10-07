@@ -74,7 +74,7 @@ class Event(BaseModel):
     created_by: str
     created_at: datetime = Field(default_factory=lambda: datetime.now(timezone.utc))
     participants: List[str] = Field(default_factory=list)
-    status: str = Field(default="active", regex="^(active|cancelled|completed)$")
+    status: str = Field(default="active", pattern="^(active|cancelled|completed)$")
 
 class EventCreate(BaseModel):
     title: str = Field(..., min_length=1, max_length=200)
