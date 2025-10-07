@@ -232,11 +232,11 @@ const FreeMapView = ({ events, selectedEvent, onEventSelect, onEventDeselect, on
   );
 
   return (
-    <div className="map-container" data-testid="map-container">
+    <div style={{ height: 'calc(100vh - 4rem)', width: '100%', position: 'relative' }} data-testid="map-container">
       <MapContainer
         center={mapCenter}
         zoom={10}
-        style={{ height: '100%', width: '100%', minHeight: '500px' }}
+        style={{ height: '100%', width: '100%' }}
         className="z-0"
         data-testid="leaflet-map"
       >
