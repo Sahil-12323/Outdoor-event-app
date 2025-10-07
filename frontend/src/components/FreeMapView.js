@@ -383,6 +383,7 @@ const FreeMapView = ({ events, selectedEvent, onEventSelect, onEventDeselect, on
         onFilterChange={setFilter} 
         selectedFilter={filter}
         eventCounts={eventCounts}
+        availableTypes={availableTypes}
       />
 
       {/* Compact Event Summary */}
