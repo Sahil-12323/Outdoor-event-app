@@ -94,6 +94,45 @@ const EventForm = ({ onClose, onSubmit }) => {
     setShowEventTypeDropdown(false);
   };
 
+  // Search for location suggestions using Google Places API
+  const searchLocationSuggestions = async (input) => {
+    if (!input.trim()) return;
+    
+    setIsLoadingPlaces(true);
+    try {
+      const response = await fetch(
+        `https://maps.googleapis.com/maps/api/place/autocomplete/json?input=${encodeURIComponent(input)}&key=${process.env.REACT_APP_GOOGLE_MAPS_API_KEY}&components=country:in`
+      );
+      
+      if (response.ok) {
+        const data = await response.json();
+        if (data.predictions) {
+          setLocationSuggestions(data.predictions.slice(0, 5)); // Show top 5 suggestions
+          setShowLocationDropdown(true);
+        }
+      }
+    } catch (error) {
+      console.error('Places API error:', error);
+      // Fallback to geocoding for basic suggestions
+      setLocationSuggestions([]);
+    } finally {
+      setIsLoadingPlaces(false);
+    }
+  };
+
+  // Select a location suggestion
+  const selectLocationSuggestion = async (suggestion) => {
+    const address = suggestion.description;
+    setFormData(prev => ({
+      ...prev,
+      location: { ...prev.location, address }
+    }));
+    setShowLocationDropdown(false);
+    
+    // Get detailed location info
+    await geocodeAddress(address);
+  };
+
   const geocodeAddress = async (address) => {
     if (!address.trim()) return;
     
