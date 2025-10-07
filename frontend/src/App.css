@@ -46,7 +46,7 @@
 /* Event hover popup styles */
 .event-hover-popup {
   position: fixed !important;
-  z-index: 10000 !important;
+  z-index: 99999 !important;
   pointer-events: auto !important;
   backdrop-filter: blur(12px) !important;
   background: rgba(255, 255, 255, 0.98) !important;
