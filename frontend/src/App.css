@@ -131,11 +131,25 @@
 @keyframes popupFadeIn {
   from {
     opacity: 0;
-    top: calc(50% - 210px);
+    transform: translate(-50%, -50%) scale(0.95);
   }
   to {
     opacity: 1;
-    top: calc(50% - 200px);
+    transform: translate(-50%, -50%) scale(1);
+  }
+}
+
+/* Mobile animation */
+@media (max-width: 768px) {
+  @keyframes popupFadeIn {
+    from {
+      opacity: 0;
+      transform: translateY(-20px) scale(0.95);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0) scale(1);
+    }
   }
 }
 
