@@ -301,20 +301,8 @@ const FreeMapView = ({ events, selectedEvent, onEventSelect, onEventDeselect, on
       <MapControls 
         onFilterChange={setFilter} 
         selectedFilter={filter}
+        eventCounts={eventCounts}
       />
-
-      {/* Event Legend */}
-      <div className="absolute bottom-4 left-4 bg-white rounded-lg shadow-lg p-3 max-w-xs z-1000">
-        <h4 className="font-semibold text-gray-900 mb-2 text-sm">Event Types</h4>
-        <div className="grid grid-cols-2 gap-1 text-xs">
-          {Object.entries(EVENT_TYPE_CONFIG).slice(0, 6).map(([type, config]) => (
-            <div key={type} className="flex items-center gap-1">
-              <span style={{ color: config.color }}>{config.icon}</span>
-              <span className="text-gray-600">{config.label}</span>
-            </div>
-          ))}
-        </div>
-      </div>
 
       {/* Event Count */}
       <div className="absolute top-4 right-4 bg-white rounded-lg shadow-lg px-3 py-2 z-1000">
