@@ -590,6 +590,11 @@ const FreeMapView = ({ events, selectedEvent, onEventSelect, onEventDeselect, on
     filter === 'all' || event.event_type === filter
   );
 
+  // Debug: Log events to console
+  console.log('Total events:', events.length);
+  console.log('Filtered events:', filteredEvents.length);
+  console.log('Events data:', filteredEvents);
+
   return (
     <div style={{ height: 'calc(100vh - 4rem)', width: '100%', position: 'relative' }} data-testid="map-container">
       <MapContainer
