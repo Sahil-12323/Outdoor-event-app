@@ -13,15 +13,15 @@ L.Icon.Default.mergeOptions({
 });
 
 const EVENT_TYPE_CONFIG = {
-  hiking: { color: '#059669', icon: '🥾', label: 'Hiking' },
-  camping: { color: '#0d9488', icon: '⛺', label: 'Camping' },
-  cycling: { color: '#0891b2', icon: '🚴', label: 'Cycling' },
-  sports: { color: '#2563eb', icon: '⚽', label: 'Sports' },
-  workshop: { color: '#7c3aed', icon: '🎨', label: 'Workshop' },
-  festival: { color: '#dc2626', icon: '🎪', label: 'Festival' },
-  climbing: { color: '#ea580c', icon: '🧗', label: 'Climbing' },
-  kayaking: { color: '#0284c7', icon: '🛶', label: 'Kayaking' },
-  running: { color: '#16a34a', icon: '🏃', label: 'Running' }
+  hiking: { color: '#059669', icon: '⛰️', label: 'Hiking', gradient: 'from-emerald-400 to-emerald-600' },
+  camping: { color: '#0d9488', icon: '🏕️', label: 'Camping', gradient: 'from-teal-400 to-teal-600' },
+  cycling: { color: '#0891b2', icon: '🚵', label: 'Cycling', gradient: 'from-cyan-400 to-cyan-600' },
+  sports: { color: '#2563eb', icon: '🏐', label: 'Sports', gradient: 'from-blue-400 to-blue-600' },
+  workshop: { color: '#7c3aed', icon: '🎯', label: 'Workshop', gradient: 'from-violet-400 to-violet-600' },
+  festival: { color: '#dc2626', icon: '🎭', label: 'Festival', gradient: 'from-red-400 to-red-600' },
+  climbing: { color: '#ea580c', icon: '🧗‍♀️', label: 'Climbing', gradient: 'from-orange-400 to-orange-600' },
+  kayaking: { color: '#0284c7', icon: '🏄', label: 'Kayaking', gradient: 'from-sky-400 to-sky-600' },
+  running: { color: '#16a34a', icon: '🏃‍♀️', label: 'Running', gradient: 'from-green-400 to-green-600' }
 };
 
 // Create custom colored markers for different event types
