@@ -246,43 +246,96 @@ function App() {
           ) : (
             <div className="min-h-screen bg-gray-50">
                 {/* Header */}
-                <header className="bg-white shadow-sm border-b border-gray-200 sticky top-0 z-40">
-                  <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-                    <div className="flex justify-between items-center h-16">
-                      <div className="flex items-center space-x-4">
-                        <h1 className="text-2xl font-bold text-emerald-600">
-                          🏔️ TrailMeet
-                        </h1>
-                        <span className="text-sm text-gray-500 hidden sm:block">
-                          Discover & Share Outdoor Adventures
-                        </span>
+                <header className="bg-gradient-to-r from-emerald-600 via-teal-600 to-cyan-600 shadow-xl sticky top-0 z-40 backdrop-blur-sm">
+                  <div className="absolute inset-0 bg-black/10"></div>
+                  <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+                    <div className="flex justify-between items-center h-20">
+                      {/* Logo & Brand */}
+                      <div className="flex items-center space-x-6">
+                        <div className="flex items-center space-x-3">
+                          {/* Attractive Logo */}
+                          <div className="relative">
+                            <div className="w-12 h-12 bg-white/20 backdrop-blur-sm rounded-2xl flex items-center justify-center shadow-lg border border-white/30">
+                              <span className="text-2xl">🌄</span>
+                            </div>
+                            <div className="absolute -top-1 -right-1 w-6 h-6 bg-gradient-to-br from-orange-400 to-red-500 rounded-full flex items-center justify-center shadow-lg">
+                              <span className="text-xs">🔥</span>
+                            </div>
+                          </div>
+                          
+                          {/* Brand Text */}
+                          <div className="flex flex-col">
+                            <h1 className="text-2xl font-bold text-white tracking-tight">
+                              TrailMeet
+                            </h1>
+                            <p className="text-emerald-100 text-sm font-medium hidden sm:block">
+                              Adventure Awaits • Connect • Explore
+                            </p>
+                          </div>
+                        </div>
+
+                        {/* Quick Stats */}
+                        <div className="hidden lg:flex items-center space-x-4 ml-8">
+                          <div className="flex items-center space-x-2 bg-white/10 backdrop-blur-sm rounded-full px-3 py-1.5 border border-white/20">
+                            <span className="text-white/90 text-xs font-medium">🏃‍♀️ Live Events:</span>
+                            <span className="text-white font-bold text-sm">{events.length}</span>
+                          </div>
+                          <div className="flex items-center space-x-2 bg-white/10 backdrop-blur-sm rounded-full px-3 py-1.5 border border-white/20">
+                            <span className="text-white/90 text-xs font-medium">📍 Mumbai</span>
+                          </div>
+                        </div>
                       </div>
 
+                      {/* Action Buttons */}
                       <div className="flex items-center space-x-4">
+                        {/* Create Event Button */}
                         <button
                           onClick={() => setShowEventForm(true)}
-                          className="bg-emerald-600 hover:bg-emerald-700 text-white px-4 py-2 rounded-lg font-medium transition-colors flex items-center space-x-2"
+                          className="group relative overflow-hidden bg-white/20 hover:bg-white/30 backdrop-blur-sm text-white px-6 py-3 rounded-2xl font-semibold transition-all duration-300 flex items-center space-x-2 border border-white/30 shadow-lg hover:shadow-xl transform hover:scale-105"
                           data-testid="create-event-btn"
                         >
-                          <span>+</span>
-                          <span className="hidden sm:inline">Create Event</span>
+                          <div className="absolute inset-0 bg-gradient-to-r from-white/20 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
+                          <span className="relative text-lg">✨</span>
+                          <span className="relative hidden sm:inline">Create Event</span>
+                          <span className="relative sm:hidden">Create</span>
                         </button>
 
+                        {/* User Profile */}
                         <button
                           onClick={() => setShowProfile(true)}
-                          className="flex items-center space-x-2 text-gray-700 hover:text-gray-900 transition-colors"
+                          className="group flex items-center space-x-3 bg-white/20 hover:bg-white/30 backdrop-blur-sm rounded-2xl px-4 py-2.5 transition-all duration-300 border border-white/30 shadow-lg hover:shadow-xl transform hover:scale-105"
                           data-testid="profile-btn"
                         >
-                          <img
-                            src={user.picture}
-                            alt={user.name}
-                            className="w-8 h-8 rounded-full border-2 border-gray-200"
-                          />
-                          <span className="hidden sm:inline font-medium">{user.name}</span>
+                          <div className="relative">
+                            <img
+                              src={user.picture}
+                              alt={user.name}
+                              className="w-10 h-10 rounded-xl border-2 border-white/50 shadow-lg"
+                            />
+                            <div className="absolute -bottom-1 -right-1 w-4 h-4 bg-green-400 border-2 border-white rounded-full"></div>
+                          </div>
+                          <div className="hidden sm:block text-left">
+                            <p className="text-white font-semibold text-sm">{user.name}</p>
+                            <p className="text-emerald-100 text-xs">Explorer</p>
+                          </div>
+                          <div className="text-white/70 group-hover:text-white transition-colors">
+                            <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
+                            </svg>
+                          </div>
                         </button>
                       </div>
                     </div>
                   </div>
+
+                  {/* Decorative Elements */}
+                  <div className="absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-yellow-400 via-orange-500 to-red-500"></div>
+                  <div className="absolute bottom-0 left-0 w-full h-px bg-gradient-to-r from-transparent via-white/30 to-transparent"></div>
+                  
+                  {/* Floating Particles Effect */}
+                  <div className="absolute top-4 left-20 w-2 h-2 bg-white/30 rounded-full animate-pulse"></div>
+                  <div className="absolute top-8 right-32 w-1 h-1 bg-yellow-300/50 rounded-full animate-ping"></div>
+                  <div className="absolute bottom-4 left-1/3 w-1.5 h-1.5 bg-orange-300/40 rounded-full animate-bounce"></div>
                 </header>
 
                 {/* Main Content */}
