@@ -204,9 +204,13 @@ const EventForm = ({ onClose, onSubmit }) => {
                 <SelectTrigger data-testid="event-type-select">
                   <SelectValue placeholder="Select event type" />
                 </SelectTrigger>
-                <SelectContent>
+                <SelectContent data-testid="event-type-options">
                   {EVENT_TYPES.map((type) => (
-                    <SelectItem key={type.value} value={type.value}>
+                    <SelectItem 
+                      key={type.value} 
+                      value={type.value}
+                      data-testid={`event-type-option-${type.value}`}
+                    >
                       {type.label}
                     </SelectItem>
                   ))}
