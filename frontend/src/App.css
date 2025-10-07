@@ -102,33 +102,6 @@
   }
 }
 
-/* Mobile animation */
-@media (max-width: 768px) {
-  @keyframes popupFadeIn {
-    from {
-      opacity: 0;
-      top: 13vh;
-    }
-    to {
-      opacity: 1;
-      top: 15vh;
-    }
-  }
-}
-
-@media (max-width: 480px) {
-  @keyframes popupFadeIn {
-    from {
-      opacity: 0;
-      top: 10vh;
-    }
-    to {
-      opacity: 1;
-      top: 12vh;
-    }
-  }
-}
-
 /* Remove default Leaflet popup styles that might interfere */
 .leaflet-popup-pane {
   display: none !important;
