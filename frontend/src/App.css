@@ -54,6 +54,46 @@
   animation: popupFadeIn 0.2s ease-out !important;
 }
 
+/* Responsive popup positioning */
+.responsive-popup {
+  /* Default desktop positioning - centered */
+  top: 50% !important;
+  left: 50% !important;
+  transform: translate(-50%, -50%) !important;
+  max-width: 90vw !important;
+  max-height: 80vh !important;
+  overflow-y: auto !important;
+}
+
+/* Mobile and small screens */
+@media (max-width: 768px) {
+  .responsive-popup {
+    top: 10vh !important;
+    left: 5vw !important;
+    right: 5vw !important;
+    transform: none !important;
+    width: 90vw !important;
+    max-width: none !important;
+  }
+}
+
+/* Very small screens */
+@media (max-width: 480px) {
+  .responsive-popup {
+    top: 8vh !important;
+    left: 2vw !important;
+    right: 2vw !important;
+    width: 96vw !important;
+  }
+}
+
+/* Large screens */
+@media (min-width: 1400px) {
+  .responsive-popup {
+    max-width: 400px !important;
+  }
+}
+
 /* Popup backdrop */
 .popup-backdrop {
   position: fixed !important;
