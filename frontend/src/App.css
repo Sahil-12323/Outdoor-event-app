@@ -141,11 +141,11 @@
 @keyframes popupFadeIn {
   from {
     opacity: 0;
-    transform: translate(-50%, -50%) scale(0.95);
+    top: 18vh;
   }
   to {
     opacity: 1;
-    transform: translate(-50%, -50%) scale(1);
+    top: 20vh;
   }
 }
 
@@ -154,11 +154,24 @@
   @keyframes popupFadeIn {
     from {
       opacity: 0;
-      transform: translateY(-20px) scale(0.95);
+      top: 13vh;
     }
     to {
       opacity: 1;
-      transform: translateY(0) scale(1);
+      top: 15vh;
+    }
+  }
+}
+
+@media (max-width: 480px) {
+  @keyframes popupFadeIn {
+    from {
+      opacity: 0;
+      top: 10vh;
+    }
+    to {
+      opacity: 1;
+      top: 12vh;
     }
   }
 }
