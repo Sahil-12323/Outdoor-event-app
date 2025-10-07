@@ -37,9 +37,10 @@ function App() {
   const [locationLoading, setLocationLoading] = useState(true);
   const [locationError, setLocationError] = useState(null);
 
-  // Initialize authentication
+  // Initialize authentication and location
   useEffect(() => {
     initAuth();
+    getUserLocation();
   }, []);
 
   // Fetch events when user is authenticated
