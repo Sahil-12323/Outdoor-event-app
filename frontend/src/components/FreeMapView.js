@@ -503,6 +503,9 @@ const FreeMapView = ({ events, selectedEvent, onEventSelect, onEventDeselect, on
             onLeave={leaveEvent}
             onShowChat={onShowChat}
             currentUserId={user?.id}
+            isHovered={hoveredEventId === event.id}
+            onHover={(eventId) => setHoveredEventId(eventId)}
+            onLeaveHover={() => setHoveredEventId(null)}
           />
         ))}
       </MapContainer>
