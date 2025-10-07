@@ -67,22 +67,7 @@ const EventForm = ({ onClose, onSubmit }) => {
     }
   };
 
-  // Handle event type search
-  const handleEventTypeSearch = (value) => {
-    setEventTypeSearch(value);
-    setShowEventTypeDropdown(true);
-  };
-
-  // Filter event types based on search
-  const filteredEventTypes = EVENT_TYPES.filter(type =>
-    type.label.toLowerCase().includes(eventTypeSearch.toLowerCase())
-  );
-
-  const selectEventType = (type) => {
-    setFormData(prev => ({ ...prev, event_type: type.value }));
-    setEventTypeSearch(type.label);
-    setShowEventTypeDropdown(false);
-  };
+  // Event types are now free form - no more filtering needed!
 
   // Popular locations in India for outdoor activities with coordinates
   const popularLocations = [
