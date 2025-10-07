@@ -523,6 +523,8 @@ function App() {
                             setSelectedEvent(event);
                             setShowChat(true);
                           }}
+                          userLocation={userLocation}
+                          onLocationRefresh={getUserLocation}
                         />
                       }
                     />
