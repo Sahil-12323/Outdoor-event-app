@@ -42,7 +42,7 @@ const createCustomIcon = (eventType) => {
   });
 };
 
-const EventMarker = ({ event, onJoin, onLeave, onShowChat, currentUserId }) => {
+const EventMarker = ({ event, onJoin, onLeave, onShowChat, currentUserId, isHovered, onHover, onLeaveHover }) => {
   const config = getEventTypeConfig(event.event_type);
   const isParticipant = event.participants?.includes(currentUserId);
   const isCreator = event.created_by === currentUserId;
@@ -63,100 +63,139 @@ const EventMarker = ({ event, onJoin, onLeave, onShowChat, currentUserId }) => {
   };
 
   return (
-    <Marker 
-      position={[event.location.lat, event.location.lng]} 
-      icon={createCustomIcon(event.event_type)}
-    >
-      <Popup maxWidth={350} className="custom-popup">
-        <div className="p-4">
-          <div className="flex items-center justify-between mb-3">
-            <h3 className="text-lg font-bold text-gray-900 pr-4">{event.title}</h3>
-            <span className="px-2 py-1 rounded-full text-xs font-medium bg-emerald-100 text-emerald-800">
-              {config.label}
-            </span>
+    <>
+      <Marker 
+        position={[event.location.lat, event.location.lng]} 
+        icon={createCustomIcon(event.event_type)}
+        eventHandlers={{
+          mouseover: () => onHover(event.id),
+          mouseout: () => onLeaveHover()
+        }}
+      />
+      
+      {/* Hover Popup - Custom positioned */}
+      {isHovered && (
+        <div 
+          className="absolute bg-white rounded-xl shadow-2xl border border-gray-200 p-4 max-w-sm w-80 pointer-events-auto"
+          style={{
+            position: 'fixed',
+            top: '50%',
+            left: '50%',
+            transform: 'translate(-50%, -50%)',
+            zIndex: 10000,
+            backdropFilter: 'blur(12px)',
+            backgroundColor: 'rgba(255, 255, 255, 0.95)'
+          }}
+          onMouseEnter={() => onHover(event.id)}
+          onMouseLeave={onLeaveHover}
+        >
+          {/* Header */}
+          <div className="flex items-start justify-between mb-3">
+            <div className="flex-1 pr-2">
+              <h3 className="text-lg font-bold text-gray-900 leading-tight">{event.title}</h3>
+              <span className="inline-flex items-center px-2 py-1 rounded-full text-xs font-medium bg-gradient-to-r from-emerald-100 to-teal-100 text-emerald-800 mt-2">
+                {config.icon} {config.label}
+              </span>
+            </div>
+            <button
+              onClick={onLeaveHover}
+              className="text-gray-400 hover:text-gray-600 p-1 rounded-full hover:bg-gray-100 transition-colors"
+            >
+              ✕
+            </button>
           </div>
 
-          <div className="space-y-3">
-            <p className="text-gray-600 text-sm leading-relaxed">
-              {event.description}
-            </p>
+          {/* Description */}
+          <p className="text-gray-600 text-sm leading-relaxed mb-4 line-clamp-3">
+            {event.description}
+          </p>
 
-            <div className="space-y-2">
-              <div className="flex items-center gap-2">
-                <span className="text-sm">📍</span>
-                <div>
-                  <div className="font-medium text-gray-900 text-sm">Location</div>
-                  <div className="text-xs text-gray-600">{event.location.address}</div>
-                </div>
-              </div>
-
-              <div className="flex items-center gap-2">
-                <span className="text-sm">📅</span>
-                <div>
-                  <div className="font-medium text-gray-900 text-sm">Date & Time</div>
-                  <div className="text-xs text-gray-600">{formatDate(event.event_date)}</div>
-                </div>
-              </div>
-
-              <div className="flex items-center gap-2">
-                <span className="text-sm">👥</span>
-                <div>
-                  <div className="font-medium text-gray-900 text-sm">Participants</div>
-                  <div className="text-xs text-gray-600">
-                    {event.participants?.length || 0}
-                    {event.capacity && ` / ${event.capacity}`} joined
-                  </div>
-                </div>
+          {/* Details Grid */}
+          <div className="space-y-3 mb-4">
+            <div className="flex items-center gap-3">
+              <span className="text-base">📍</span>
+              <div className="flex-1 min-w-0">
+                <div className="font-medium text-gray-900 text-sm">Location</div>
+                <div className="text-xs text-gray-600 truncate">{event.location.address}</div>
               </div>
             </div>
 
-            <div className="flex flex-wrap gap-2 pt-2">
-              {!isCreator && (
-                <>
-                  {!isParticipant ? (
-                    <button
-                      onClick={() => onJoin(event.id)}
-                      className="px-3 py-1 bg-emerald-600 hover:bg-emerald-700 text-white text-sm rounded font-medium transition-colors"
-                      data-testid="join-event-btn"
-                    >
-                      ✓ Join
-                    </button>
-                  ) : (
-                    <button
-                      onClick={() => onLeave(event.id)}
-                      className="px-3 py-1 bg-red-600 hover:bg-red-700 text-white text-sm rounded font-medium transition-colors"
-                      data-testid="leave-event-btn"
-                    >
-                      ✗ Leave
-                    </button>
-                  )}
-                </>
-              )}
+            <div className="flex items-center gap-3">
+              <span className="text-base">📅</span>
+              <div className="flex-1 min-w-0">
+                <div className="font-medium text-gray-900 text-sm">Date & Time</div>
+                <div className="text-xs text-gray-600">{formatDate(event.event_date)}</div>
+              </div>
+            </div>
 
-              {(isParticipant || isCreator) && (
-                <button
-                  onClick={() => onShowChat(event)}
-                  className="px-3 py-1 bg-blue-600 hover:bg-blue-700 text-white text-sm rounded font-medium transition-colors"
-                  data-testid="chat-btn"
-                >
-                  💬 Chat
-                </button>
-              )}
+            <div className="flex items-center gap-3">
+              <span className="text-base">👥</span>
+              <div className="flex-1 min-w-0">
+                <div className="font-medium text-gray-900 text-sm">Participants</div>
+                <div className="text-xs text-gray-600">
+                  {event.participants?.length || 0}
+                  {event.capacity && ` / ${event.capacity}`} joined
+                </div>
+              </div>
+            </div>
+          </div>
 
-              <a
-                href={`https://www.google.com/maps/dir/?api=1&destination=${event.location.lat},${event.location.lng}`}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="px-3 py-1 bg-gray-100 hover:bg-gray-200 text-gray-700 text-sm rounded font-medium transition-colors"
-                data-testid="directions-btn"
+          {/* Action Buttons */}
+          <div className="flex flex-wrap gap-2 pt-3 border-t border-gray-100">
+            {!isCreator && (
+              <>
+                {!isParticipant ? (
+                  <button
+                    onClick={() => {
+                      onJoin(event.id);
+                      onLeaveHover();
+                    }}
+                    className="flex-1 px-3 py-2 bg-gradient-to-r from-emerald-500 to-emerald-600 hover:from-emerald-600 hover:to-emerald-700 text-white text-sm rounded-lg font-medium transition-all transform hover:scale-105 shadow-md"
+                    data-testid="join-event-btn"
+                  >
+                    ✓ Join Event
+                  </button>
+                ) : (
+                  <button
+                    onClick={() => {
+                      onLeave(event.id);
+                      onLeaveHover();
+                    }}
+                    className="flex-1 px-3 py-2 bg-gradient-to-r from-red-500 to-red-600 hover:from-red-600 hover:to-red-700 text-white text-sm rounded-lg font-medium transition-all transform hover:scale-105 shadow-md"
+                    data-testid="leave-event-btn"
+                  >
+                    ✗ Leave Event
+                  </button>
+                )}
+              </>
+            )}
+
+            {(isParticipant || isCreator) && (
+              <button
+                onClick={() => {
+                  onShowChat(event);
+                  onLeaveHover();
+                }}
+                className="px-4 py-2 bg-gradient-to-r from-blue-500 to-blue-600 hover:from-blue-600 hover:to-blue-700 text-white text-sm rounded-lg font-medium transition-all transform hover:scale-105 shadow-md"
+                data-testid="chat-btn"
               >
-                🧭 Directions
-              </a>
-            </div>
+                💬 Chat
+              </button>
+            )}
+
+            <a
+              href={`https://www.google.com/maps/dir/?api=1&destination=${event.location.lat},${event.location.lng}`}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="px-4 py-2 bg-gradient-to-r from-gray-100 to-gray-200 hover:from-gray-200 hover:to-gray-300 text-gray-700 text-sm rounded-lg font-medium transition-all transform hover:scale-105 shadow-md"
+              data-testid="directions-btn"
+            >
+              🧭 Directions
+            </a>
           </div>
         </div>
-      </Popup>
-    </Marker>
+      )}
+    </>
   );
 };
 
