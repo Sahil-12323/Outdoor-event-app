@@ -186,7 +186,7 @@ const EventForm = ({ onClose, onSubmit }) => {
     setError(''); // Clear previous errors
     
     try {
-      // First, check if it matches any popular location by partial name
+      // Check if it matches any popular location by partial name
       const matchedLocation = popularLocations.find(loc => 
         address.toLowerCase().includes(loc.name.toLowerCase()) ||
         loc.full.toLowerCase().includes(address.toLowerCase())
@@ -205,60 +205,6 @@ const EventForm = ({ onClose, onSubmit }) => {
         return;
       }
       
-      // Try direct geocoding API call
-      const response = await fetch(
-        `https://maps.googleapis.com/maps/api/geocode/json?address=${encodeURIComponent(address)}&key=${process.env.REACT_APP_GOOGLE_MAPS_API_KEY}`
-      );
-      
-      if (response.ok) {
-        const data = await response.json();
-        console.log('Geocoding response:', data); // Debug log
-        
-        if (data.status === 'OK' && data.results && data.results.length > 0) {
-          const location = data.results[0].geometry.location;
-          const formattedAddress = data.results[0].formatted_address;
-          
-          setFormData(prev => ({
-            ...prev,
-            location: {
-              lat: location.lat,
-              lng: location.lng,
-              address: formattedAddress
-            }
-          }));
-        } else if (data.status === 'REQUEST_DENIED') {
-          // Fallback for API key issues - use Mumbai as default
-          setFormData(prev => ({
-            ...prev,
-            location: {
-              lat: 19.0760,
-              lng: 72.8777,
-              address: address // Keep user's input as address
-            }
-          }));
-          console.warn('Geocoding API access denied, using default Mumbai coordinates');
-        } else {
-          // For manual input, provide a helpful default
-          const defaultCoords = getDefaultCoordinates(address);
-          if (defaultCoords) {
-            setFormData(prev => ({
-              ...prev,
-              location: {
-                lat: defaultCoords.lat,
-                lng: defaultCoords.lng,
-                address: address
-              }
-            }));
-          } else {
-            setError('Please select from suggestions or enter a more specific address (city, state).');
-          }
-        }
-      } else {
-        throw new Error(`Geocoding API error: ${response.status}`);
-      }
-    } catch (error) {
-      console.error('Geocoding error:', error);
-      
       // Fallback: try to extract city/state and use default coordinates
       const defaultCoords = getDefaultCoordinates(address);
       if (defaultCoords) {
@@ -271,8 +217,11 @@ const EventForm = ({ onClose, onSubmit }) => {
           }
         }));
       } else {
-        setError('Unable to find location. Please select from the dropdown suggestions or try a different address.');
+        setError('Please select from the dropdown suggestions for accurate location.');
       }
+    } catch (error) {
+      console.error('Location processing error:', error);
+      setError('Unable to process location. Please select from the dropdown suggestions.');
     } finally {
       setIsGeocodingLocation(false);
     }
