@@ -382,34 +382,63 @@ const EventForm = ({ onClose, onSubmit }) => {
               <Label htmlFor="event_type">Event Type *</Label>
               <div className="relative" ref={eventTypeInputRef}>
                 <Input
-                  placeholder="Search or select event type..."
-                  value={eventTypeSearch || (formData.event_type ? EVENT_TYPES.find(t => t.value === formData.event_type)?.label : '')}
-                  onChange={(e) => handleEventTypeSearch(e.target.value)}
-                  onFocus={() => setShowEventTypeDropdown(true)}
-                  className="cursor-pointer"
+                  placeholder="Enter any event type (e.g., hiking, movie, concert, workshop...)"
+                  value={eventTypeSearch || formData.event_type}
+                  onChange={(e) => {
+                    const value = e.target.value;
+                    setEventTypeSearch(value);
+                    setFormData(prev => ({ ...prev, event_type: value }));
+                    if (value.length > 0) {
+                      setShowEventTypeDropdown(true);
+                    } else {
+                      setShowEventTypeDropdown(false);
+                    }
+                  }}
+                  onFocus={() => {
+                    if (eventTypeSearch || formData.event_type) {
+                      setShowEventTypeDropdown(true);
+                    }
+                  }}
+                  className="cursor-text"
                   data-testid="event-type-search-input"
+                  required
                 />
-                {showEventTypeDropdown && (
+                {showEventTypeDropdown && (eventTypeSearch || formData.event_type) && (
                   <div 
                     ref={eventTypeDropdownRef}
                     className="absolute z-50 w-full mt-1 bg-white border border-gray-300 rounded-lg shadow-lg max-h-60 overflow-y-auto"
                     data-testid="event-type-dropdown"
                   >
-                    {filteredEventTypes.length > 0 ? (
-                      filteredEventTypes.map((type) => (
-                        <div
-                          key={type.value}
-                          onClick={() => selectEventType(type)}
-                          className="px-3 py-2 hover:bg-emerald-50 cursor-pointer flex items-center gap-2 border-b border-gray-100 last:border-b-0"
-                          data-testid={`event-type-option-${type.value}`}
-                        >
-                          <span className="text-lg">{type.label.split(' ')[1]}</span>
-                          <span className="text-gray-700">{type.label.split(' ')[0]}</span>
-                        </div>
-                      ))
-                    ) : (
-                      <div className="px-3 py-2 text-gray-500 text-sm">
-                        No event types found
+                    {/* Popular suggestions */}
+                    <div className="px-3 py-2 text-xs text-gray-500 font-medium border-b border-gray-100">
+                      Popular Types:
+                    </div>
+                    {['hiking', 'movie', 'concert', 'workshop', 'cycling', 'food', 'photography', 'yoga', 'gaming', 'party'].map((type) => (
+                      <div
+                        key={type}
+                        onClick={() => {
+                          setFormData(prev => ({ ...prev, event_type: type }));
+                          setEventTypeSearch(type);
+                          setShowEventTypeDropdown(false);
+                        }}
+                        className="px-3 py-2 hover:bg-emerald-50 cursor-pointer flex items-center gap-2 border-b border-gray-100 last:border-b-0 capitalize"
+                        data-testid={`event-type-option-${type}`}
+                      >
+                        <span className="text-sm">{type}</span>
+                      </div>
+                    ))}
+                    
+                    {/* Current input as option */}
+                    {(eventTypeSearch || formData.event_type) && 
+                     !['hiking', 'movie', 'concert', 'workshop', 'cycling', 'food', 'photography', 'yoga', 'gaming', 'party'].includes((eventTypeSearch || formData.event_type).toLowerCase()) && (
+                      <div
+                        onClick={() => {
+                          setFormData(prev => ({ ...prev, event_type: eventTypeSearch || formData.event_type }));
+                          setShowEventTypeDropdown(false);
+                        }}
+                        className="px-3 py-2 hover:bg-emerald-50 cursor-pointer flex items-center gap-2 border-t border-gray-200 bg-emerald-50"
+                      >
+                        <span className="text-emerald-600 font-medium">✓ Use "{eventTypeSearch || formData.event_type}"</span>
                       </div>
                     )}
                   </div>
