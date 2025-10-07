@@ -275,15 +275,15 @@ function App() {
                     <Route
                       path="/"
                       element={
-                        <SimpleMap
+                        <FreeMapView
                           events={events}
+                          selectedEvent={selectedEvent}
+                          onEventSelect={setSelectedEvent}
+                          onEventDeselect={() => setSelectedEvent(null)}
                           onShowChat={(event) => {
                             setSelectedEvent(event);
                             setShowChat(true);
                           }}
-                          onJoin={joinEvent}
-                          onLeave={leaveEvent}
-                          currentUserId={user?.id}
                         />
                       }
                     />
