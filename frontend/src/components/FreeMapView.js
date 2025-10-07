@@ -399,7 +399,7 @@ const MapControls = ({ onFilterChange, selectedFilter, eventCounts, availableTyp
       {showDropdown && (
         <div 
           className="mt-2 bg-white/95 backdrop-blur-sm rounded-xl shadow-xl border border-gray-200 p-2 min-w-[200px] max-h-80 overflow-y-auto"
-          style={{ zIndex: 60 }}
+          style={{ zIndex: 20 }}
         >
           {/* All Events */}
           <button
