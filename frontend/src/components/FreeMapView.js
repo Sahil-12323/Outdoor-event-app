@@ -409,9 +409,9 @@ const MapControls = ({ onFilterChange, selectedFilter, eventCounts, availableTyp
   );
 };
 
-const FreeMapView = ({ events, selectedEvent, onEventSelect, onEventDeselect, onShowChat }) => {
+const FreeMapView = ({ events, selectedEvent, onEventSelect, onEventDeselect, onShowChat, userLocation, onLocationRefresh }) => {
   const { user, joinEvent, leaveEvent } = useAuth();
-  const [mapCenter, setMapCenter] = useState([19.0760, 72.8777]); // Mumbai default
+  const [mapCenter, setMapCenter] = useState([19.0760, 72.8777]); // Default fallback
   const [filter, setFilter] = useState('all');
 
   // Get all unique event types dynamically from actual events
