@@ -102,7 +102,7 @@
 # Testing Data - Main Agent and testing sub agent both should log testing data below this section
 #====================================================================================================
 
-user_problem_statement: "User reported that when hovering over an event to see its description, the popup gets hidden behind the 'All Events' filter button. Fix z-index layering issue so hover popups appear in front of all UI elements."
+user_problem_statement: "Test the enhanced Create Event button in the TrailMeet app to ensure it's both visually attractive and fully functional with vibrant gradient design, Fredoka font, rocket emoji animation, hover effects, and responsive design."
 
 frontend:
   - task: "Fix z-index layering for event hover popups"
