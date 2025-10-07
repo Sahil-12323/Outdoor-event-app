@@ -3,6 +3,32 @@
 @import 'tailwindcss/components';
 @import 'tailwindcss/utilities';
 
+/* Leaflet Map Styles */
+.leaflet-container {
+  height: 100%;
+  width: 100%;
+  z-index: 1;
+}
+
+.custom-div-icon {
+  background: transparent !important;
+  border: none !important;
+}
+
+.custom-popup .leaflet-popup-content-wrapper {
+  padding: 0;
+  border-radius: 8px;
+}
+
+.custom-popup .leaflet-popup-content {
+  margin: 0;
+}
+
+/* Fix z-index issues */
+.z-1000 {
+  z-index: 1000;
+}
+
 /* Global Styles */
 * {
   box-sizing: border-box;
