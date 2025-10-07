@@ -162,38 +162,131 @@ const EventMarker = ({ event, onJoin, onLeave, onShowChat, currentUserId }) => {
 
 // Helper function to get icon and color for any event type
 const getEventTypeConfig = (eventType) => {
-  const type = eventType.toLowerCase();
+  const type = eventType.toLowerCase().trim();
   
-  // Predefined popular types
+  // Comprehensive type mapping with smart keyword matching
   const typeMapping = {
+    // Outdoor & Adventure
     hiking: { icon: '⛰️', color: '#059669', gradient: 'from-emerald-400 to-emerald-600' },
+    trekking: { icon: '🥾', color: '#059669', gradient: 'from-emerald-400 to-emerald-600' },
     camping: { icon: '🏕️', color: '#0d9488', gradient: 'from-teal-400 to-teal-600' },
     cycling: { icon: '🚵', color: '#0891b2', gradient: 'from-cyan-400 to-cyan-600' },
-    sports: { icon: '🏐', color: '#2563eb', gradient: 'from-blue-400 to-blue-600' },
-    workshop: { icon: '🎯', color: '#7c3aed', gradient: 'from-violet-400 to-violet-600' },
-    festival: { icon: '🎭', color: '#dc2626', gradient: 'from-red-400 to-red-600' },
+    biking: { icon: '🚴‍♂️', color: '#0891b2', gradient: 'from-cyan-400 to-cyan-600' },
     climbing: { icon: '🧗‍♀️', color: '#ea580c', gradient: 'from-orange-400 to-orange-600' },
-    kayaking: { icon: '🏄', color: '#0284c7', gradient: 'from-sky-400 to-sky-600' },
+    kayaking: { icon: '🛶', color: '#0284c7', gradient: 'from-sky-400 to-sky-600' },
+    canoeing: { icon: '🚣‍♀️', color: '#0284c7', gradient: 'from-sky-400 to-sky-600' },
     running: { icon: '🏃‍♀️', color: '#16a34a', gradient: 'from-green-400 to-green-600' },
+    marathon: { icon: '🏃‍♂️', color: '#16a34a', gradient: 'from-green-400 to-green-600' },
     
-    // Dynamic types - auto-generate based on keywords
+    // Beach & Water
+    beach: { icon: '🏖️', color: '#0ea5e9', gradient: 'from-sky-400 to-blue-600' },
+    swimming: { icon: '🏊‍♀️', color: '#0ea5e9', gradient: 'from-sky-400 to-blue-600' },
+    surfing: { icon: '🏄‍♂️', color: '#0ea5e9', gradient: 'from-sky-400 to-blue-600' },
+    diving: { icon: '🤿', color: '#0369a1', gradient: 'from-blue-500 to-blue-700' },
+    snorkeling: { icon: '🐠', color: '#0369a1', gradient: 'from-blue-500 to-blue-700' },
+    
+    // Sports & Fitness
+    sports: { icon: '⚽', color: '#2563eb', gradient: 'from-blue-400 to-blue-600' },
+    football: { icon: '⚽', color: '#2563eb', gradient: 'from-blue-400 to-blue-600' },
+    soccer: { icon: '⚽', color: '#2563eb', gradient: 'from-blue-400 to-blue-600' },
+    basketball: { icon: '🏀', color: '#ea580c', gradient: 'from-orange-400 to-orange-600' },
+    tennis: { icon: '🎾', color: '#16a34a', gradient: 'from-green-400 to-green-600' },
+    cricket: { icon: '🏏', color: '#dc2626', gradient: 'from-red-400 to-red-600' },
+    volleyball: { icon: '🏐', color: '#2563eb', gradient: 'from-blue-400 to-blue-600' },
+    badminton: { icon: '🏸', color: '#7c3aed', gradient: 'from-violet-400 to-violet-600' },
+    golf: { icon: '⛳', color: '#16a34a', gradient: 'from-green-400 to-green-600' },
+    gym: { icon: '💪', color: '#dc2626', gradient: 'from-red-400 to-red-600' },
+    fitness: { icon: '🏋️‍♀️', color: '#dc2626', gradient: 'from-red-400 to-red-600' },
+    workout: { icon: '💪', color: '#dc2626', gradient: 'from-red-400 to-red-600' },
+    yoga: { icon: '🧘‍♀️', color: '#059669', gradient: 'from-emerald-400 to-teal-600' },
+    pilates: { icon: '🤸‍♀️', color: '#7c3aed', gradient: 'from-violet-400 to-violet-600' },
+    
+    // Entertainment & Arts
     movie: { icon: '🎬', color: '#7c2d12', gradient: 'from-amber-400 to-orange-600' },
     cinema: { icon: '🍿', color: '#7c2d12', gradient: 'from-amber-400 to-orange-600' },
+    film: { icon: '🎥', color: '#7c2d12', gradient: 'from-amber-400 to-orange-600' },
     concert: { icon: '🎵', color: '#be185d', gradient: 'from-pink-400 to-rose-600' },
     music: { icon: '🎶', color: '#be185d', gradient: 'from-pink-400 to-rose-600' },
-    food: { icon: '🍕', color: '#dc2626', gradient: 'from-red-400 to-red-600' },
-    photography: { icon: '📸', color: '#1e40af', gradient: 'from-blue-400 to-indigo-600' },
-    art: { icon: '🎨', color: '#7c3aed', gradient: 'from-purple-400 to-violet-600' },
+    band: { icon: '🎤', color: '#be185d', gradient: 'from-pink-400 to-rose-600' },
+    karaoke: { icon: '🎤', color: '#be185d', gradient: 'from-pink-400 to-rose-600' },
     dance: { icon: '💃', color: '#be185d', gradient: 'from-pink-400 to-fuchsia-600' },
-    yoga: { icon: '🧘‍♀️', color: '#059669', gradient: 'from-emerald-400 to-teal-600' },
-    meditation: { icon: '🕯️', color: '#6b21a8', gradient: 'from-violet-400 to-purple-600' },
-    gaming: { icon: '🎮', color: '#1e40af', gradient: 'from-blue-400 to-purple-600' },
-    tech: { icon: '💻', color: '#374151', gradient: 'from-gray-400 to-slate-600' },
-    book: { icon: '📚', color: '#92400e', gradient: 'from-amber-400 to-yellow-600' },
-    study: { icon: '📖', color: '#92400e', gradient: 'from-amber-400 to-yellow-600' },
+    dancing: { icon: '🕺', color: '#be185d', gradient: 'from-pink-400 to-fuchsia-600' },
+    theater: { icon: '🎭', color: '#7c3aed', gradient: 'from-purple-400 to-violet-600' },
+    theatre: { icon: '🎭', color: '#7c3aed', gradient: 'from-purple-400 to-violet-600' },
+    drama: { icon: '🎭', color: '#7c3aed', gradient: 'from-purple-400 to-violet-600' },
+    comedy: { icon: '😂', color: '#eab308', gradient: 'from-yellow-400 to-yellow-600' },
+    standup: { icon: '🎤', color: '#eab308', gradient: 'from-yellow-400 to-yellow-600' },
+    
+    // Food & Social
+    food: { icon: '🍕', color: '#dc2626', gradient: 'from-red-400 to-red-600' },
+    restaurant: { icon: '🍽️', color: '#dc2626', gradient: 'from-red-400 to-red-600' },
+    dining: { icon: '🍽️', color: '#dc2626', gradient: 'from-red-400 to-red-600' },
+    cooking: { icon: '👨‍🍳', color: '#ea580c', gradient: 'from-orange-400 to-orange-600' },
+    bbq: { icon: '🔥', color: '#dc2626', gradient: 'from-red-400 to-red-600' },
+    barbecue: { icon: '🔥', color: '#dc2626', gradient: 'from-red-400 to-red-600' },
+    picnic: { icon: '🧺', color: '#16a34a', gradient: 'from-green-400 to-green-600' },
+    coffee: { icon: '☕', color: '#92400e', gradient: 'from-amber-600 to-yellow-600' },
+    tea: { icon: '🫖', color: '#059669', gradient: 'from-emerald-400 to-teal-600' },
+    drinks: { icon: '🍹', color: '#be185d', gradient: 'from-pink-400 to-rose-600' },
     party: { icon: '🎉', color: '#dc2626', gradient: 'from-red-400 to-pink-600' },
+    celebration: { icon: '🎊', color: '#dc2626', gradient: 'from-red-400 to-pink-600' },
+    
+    // Learning & Professional
+    workshop: { icon: '🛠️', color: '#7c3aed', gradient: 'from-violet-400 to-violet-600' },
+    seminar: { icon: '📋', color: '#374151', gradient: 'from-gray-400 to-slate-600' },
+    conference: { icon: '🎯', color: '#374151', gradient: 'from-gray-400 to-slate-600' },
+    meetup: { icon: '🤝', color: '#059669', gradient: 'from-emerald-400 to-green-600' },
     networking: { icon: '🤝', color: '#059669', gradient: 'from-emerald-400 to-green-600' },
-    business: { icon: '💼', color: '#374151', gradient: 'from-gray-400 to-blue-600' }
+    business: { icon: '💼', color: '#374151', gradient: 'from-gray-400 to-blue-600' },
+    training: { icon: '📚', color: '#2563eb', gradient: 'from-blue-400 to-blue-600' },
+    course: { icon: '📖', color: '#2563eb', gradient: 'from-blue-400 to-blue-600' },
+    class: { icon: '🎓', color: '#7c3aed', gradient: 'from-violet-400 to-violet-600' },
+    study: { icon: '📚', color: '#92400e', gradient: 'from-amber-400 to-yellow-600' },
+    book: { icon: '📖', color: '#92400e', gradient: 'from-amber-400 to-yellow-600' },
+    reading: { icon: '📚', color: '#92400e', gradient: 'from-amber-400 to-yellow-600' },
+    
+    // Creative & Hobbies
+    art: { icon: '🎨', color: '#7c3aed', gradient: 'from-purple-400 to-violet-600' },
+    painting: { icon: '🖌️', color: '#7c3aed', gradient: 'from-purple-400 to-violet-600' },
+    drawing: { icon: '✏️', color: '#374151', gradient: 'from-gray-400 to-slate-600' },
+    photography: { icon: '📸', color: '#1e40af', gradient: 'from-blue-400 to-indigo-600' },
+    photo: { icon: '📷', color: '#1e40af', gradient: 'from-blue-400 to-indigo-600' },
+    craft: { icon: '✂️', color: '#be185d', gradient: 'from-pink-400 to-rose-600' },
+    pottery: { icon: '🏺', color: '#92400e', gradient: 'from-amber-600 to-orange-600' },
+    
+    // Technology & Gaming
+    gaming: { icon: '🎮', color: '#1e40af', gradient: 'from-blue-400 to-purple-600' },
+    game: { icon: '🎲', color: '#1e40af', gradient: 'from-blue-400 to-purple-600' },
+    esports: { icon: '🎮', color: '#7c3aed', gradient: 'from-violet-400 to-purple-600' },
+    tech: { icon: '💻', color: '#374151', gradient: 'from-gray-400 to-slate-600' },
+    coding: { icon: '💻', color: '#059669', gradient: 'from-emerald-400 to-teal-600' },
+    programming: { icon: '⌨️', color: '#059669', gradient: 'from-emerald-400 to-teal-600' },
+    hackathon: { icon: '💻', color: '#dc2626', gradient: 'from-red-400 to-red-600' },
+    
+    // Health & Wellness
+    meditation: { icon: '🧘', color: '#6b21a8', gradient: 'from-violet-400 to-purple-600' },
+    mindfulness: { icon: '🕯️', color: '#6b21a8', gradient: 'from-violet-400 to-purple-600' },
+    spa: { icon: '💆‍♀️', color: '#be185d', gradient: 'from-pink-400 to-rose-600' },
+    massage: { icon: '💆‍♂️', color: '#be185d', gradient: 'from-pink-400 to-rose-600' },
+    wellness: { icon: '🌿', color: '#059669', gradient: 'from-emerald-400 to-teal-600' },
+    
+    // Festivals & Events
+    festival: { icon: '🎪', color: '#dc2626', gradient: 'from-red-400 to-red-600' },
+    carnival: { icon: '🎠', color: '#eab308', gradient: 'from-yellow-400 to-orange-600' },
+    fair: { icon: '🎡', color: '#be185d', gradient: 'from-pink-400 to-rose-600' },
+    market: { icon: '🛒', color: '#059669', gradient: 'from-emerald-400 to-green-600' },
+    
+    // Nature & Wildlife
+    nature: { icon: '🌲', color: '#059669', gradient: 'from-emerald-400 to-green-600' },
+    wildlife: { icon: '🦋', color: '#16a34a', gradient: 'from-green-400 to-green-600' },
+    birdwatching: { icon: '🦅', color: '#92400e', gradient: 'from-amber-600 to-yellow-600' },
+    gardening: { icon: '🌱', color: '#16a34a', gradient: 'from-green-400 to-green-600' },
+    
+    // Travel & Tours
+    tour: { icon: '🗺️', color: '#0891b2', gradient: 'from-cyan-400 to-cyan-600' },
+    sightseeing: { icon: '👀', color: '#0891b2', gradient: 'from-cyan-400 to-cyan-600' },
+    travel: { icon: '✈️', color: '#2563eb', gradient: 'from-blue-400 to-blue-600' },
+    expedition: { icon: '🎒', color: '#ea580c', gradient: 'from-orange-400 to-orange-600' }
   };
   
   // Try exact match first
@@ -201,16 +294,26 @@ const getEventTypeConfig = (eventType) => {
     return { ...typeMapping[type], label: eventType };
   }
   
-  // Try partial matches
-  for (const [key, config] of Object.entries(typeMapping)) {
-    if (type.includes(key) || key.includes(type)) {
-      return { ...config, label: eventType };
+  // Try substring matching with priority order
+  const keywords = Object.keys(typeMapping).sort((a, b) => b.length - a.length); // Longer keywords first
+  
+  for (const keyword of keywords) {
+    if (type.includes(keyword) || keyword.includes(type)) {
+      return { ...typeMapping[keyword], label: eventType };
     }
   }
   
-  // Default for unknown types
+  // Advanced keyword matching for compound words
+  const words = type.split(/[\s\-_]+/); // Split on spaces, hyphens, underscores
+  for (const word of words) {
+    if (typeMapping[word]) {
+      return { ...typeMapping[word], label: eventType };
+    }
+  }
+  
+  // Default for truly unknown types
   return { 
-    icon: '🎯', 
+    icon: '📅', 
     color: '#6b7280', 
     gradient: 'from-gray-400 to-gray-600',
     label: eventType 
