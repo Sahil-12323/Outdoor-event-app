@@ -101,3 +101,35 @@
 #====================================================================================================
 # Testing Data - Main Agent and testing sub agent both should log testing data below this section
 #====================================================================================================
+
+user_problem_statement: "User reported that when hovering over an event to see its description, the popup gets hidden behind the 'All Events' filter button. Fix z-index layering issue so hover popups appear in front of all UI elements."
+
+frontend:
+  - task: "Fix z-index layering for event hover popups"
+    implemented: true
+    working: false # Needs verification
+    file: "/app/frontend/src/components/FreeMapView.js"
+    stuck_count: 0
+    priority: "high"
+    needs_retesting: true
+    status_history:
+        - working: false
+          agent: "main"
+          comment: "User reported hover popup hidden behind All Events button. Updated z-index values: hover popup backdrop to 999998, popup to 999999, filter button and other UI elements reduced to 10-20 range. Also updated CSS with z-index: 999999 !important."
+
+metadata:
+  created_by: "main_agent"
+  version: "1.0" 
+  test_sequence: 0
+  run_ui: false
+
+test_plan:
+  current_focus:
+    - "Fix z-index layering for event hover popups"
+  stuck_tasks: []
+  test_all: false
+  test_priority: "high_first"
+
+agent_communication:
+    - agent: "main"
+      message: "Fixed z-index layering issue by setting hover popup to z-index 999999, backdrop to 999998, and reducing all other UI elements (filter button, event summary, location info) to z-index 10-20 range. Ready for frontend testing to verify hover functionality works correctly and popup appears above all elements."
