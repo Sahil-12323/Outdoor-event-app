@@ -174,27 +174,24 @@ const MapControls = ({ onFilterChange, selectedFilter, eventCounts }) => {
   const eventTypes = Object.entries(EVENT_TYPE_CONFIG);
 
   return (
-    <div className="absolute top-4 left-4 z-1000 bg-white/90 backdrop-blur-sm rounded-2xl shadow-xl border border-gray-200 p-4 min-w-[200px]">
-      {/* Header */}
-      <div className="mb-4">
-        <h3 className="text-sm font-semibold text-gray-800 mb-2">Filter Events</h3>
-        <button
-          onClick={() => onFilterChange('all')}
-          className={`w-full px-3 py-2 rounded-xl text-sm font-medium transition-all duration-200 ${
-            selectedFilter === 'all' 
-              ? 'bg-gradient-to-r from-emerald-500 to-teal-500 text-white shadow-lg transform scale-105' 
-              : 'bg-gray-100 hover:bg-gray-200 text-gray-700'
-          }`}
-        >
-          <div className="flex items-center justify-between">
-            <span>🌟 All Events</span>
-            <span className="text-xs opacity-80">{eventCounts.all}</span>
-          </div>
-        </button>
-      </div>
+    <div className="absolute top-4 left-4 z-1000 bg-white/95 backdrop-blur-sm rounded-xl shadow-lg border border-gray-200 p-3 max-w-[180px]">
+      {/* All Events Button */}
+      <button
+        onClick={() => onFilterChange('all')}
+        className={`w-full px-2 py-2 mb-3 rounded-lg text-xs font-medium transition-all duration-200 ${
+          selectedFilter === 'all' 
+            ? 'bg-gradient-to-r from-emerald-500 to-teal-500 text-white shadow-md' 
+            : 'bg-gray-100 hover:bg-gray-200 text-gray-700'
+        }`}
+      >
+        <div className="flex items-center justify-between">
+          <span>🌟 All</span>
+          <span className="text-xs">{eventCounts.all}</span>
+        </div>
+      </button>
       
-      {/* Event Types Grid */}
-      <div className="space-y-2">
+      {/* Event Types Compact Grid */}
+      <div className="grid grid-cols-3 gap-1">
         {eventTypes.map(([type, config]) => {
           const count = eventCounts[type] || 0;
           const isSelected = selectedFilter === type;
@@ -203,36 +200,36 @@ const MapControls = ({ onFilterChange, selectedFilter, eventCounts }) => {
             <button
               key={type}
               onClick={() => onFilterChange(type)}
-              className={`w-full p-3 rounded-xl transition-all duration-200 transform hover:scale-105 ${
+              className={`relative p-2 rounded-lg transition-all duration-200 transform hover:scale-105 ${
                 isSelected 
-                  ? `bg-gradient-to-r ${config.gradient} text-white shadow-lg` 
+                  ? `bg-gradient-to-r ${config.gradient} text-white shadow-md` 
                   : 'bg-gray-50 hover:bg-gray-100 text-gray-700'
               }`}
               title={`${config.label} (${count} events)`}
             >
-              <div className="flex items-center justify-between">
-                <div className="flex items-center space-x-2">
-                  <span className="text-lg">{config.icon}</span>
-                  <span className="text-sm font-medium">{config.label}</span>
-                </div>
-                <span className={`text-xs px-2 py-1 rounded-full ${
-                  isSelected 
-                    ? 'bg-white/20 text-white' 
-                    : 'bg-gray-200 text-gray-600'
-                }`}>
-                  {count}
+              <div className="flex flex-col items-center">
+                <span className="text-sm mb-1">{config.icon}</span>
+                <span className="text-xs font-medium truncate w-full text-center">
+                  {config.label.slice(0, 4)}
                 </span>
+                {count > 0 && (
+                  <span className={`absolute -top-1 -right-1 w-4 h-4 text-xs rounded-full flex items-center justify-center ${
+                    isSelected 
+                      ? 'bg-white text-gray-700' 
+                      : 'bg-emerald-500 text-white'
+                  }`}>
+                    {count}
+                  </span>
+                )}
               </div>
             </button>
           );
         })}
       </div>
 
-      {/* Footer */}
-      <div className="mt-4 pt-3 border-t border-gray-200">
-        <div className="text-xs text-gray-500 text-center">
-          🆓 Free OpenStreetMap
-        </div>
+      {/* Compact Footer */}
+      <div className="mt-3 pt-2 border-t border-gray-200">
+        <div className="text-xs text-gray-500 text-center">🆓 OSM</div>
       </div>
     </div>
   );
