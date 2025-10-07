@@ -321,10 +321,13 @@ const FreeMapView = ({ events, selectedEvent, onEventSelect, onEventDeselect, on
   const [mapCenter, setMapCenter] = useState([19.0760, 72.8777]); // Mumbai default
   const [filter, setFilter] = useState('all');
 
-  // Calculate event counts for each type
+  // Get all unique event types dynamically from actual events
+  const availableTypes = [...new Set(events.map(event => event.event_type))].sort();
+  
+  // Calculate event counts for each type (dynamic)
   const eventCounts = {
     all: events.length,
-    ...Object.keys(EVENT_TYPE_CONFIG).reduce((acc, type) => {
+    ...availableTypes.reduce((acc, type) => {
       acc[type] = events.filter(event => event.event_type === type).length;
       return acc;
     }, {})
