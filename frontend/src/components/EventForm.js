@@ -5,17 +5,7 @@ import { Textarea } from './ui/textarea';
 import { Label } from './ui/label';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from './ui/select';
 
-const EVENT_TYPES = [
-  { value: 'hiking', label: 'Hiking 🥾' },
-  { value: 'camping', label: 'Camping ⛺' },
-  { value: 'cycling', label: 'Cycling 🚴' },
-  { value: 'sports', label: 'Sports ⚽' },
-  { value: 'workshop', label: 'Workshop 🎨' },
-  { value: 'festival', label: 'Festival 🎪' },
-  { value: 'climbing', label: 'Climbing 🧗' },
-  { value: 'kayaking', label: 'Kayaking 🛶' },
-  { value: 'running', label: 'Running 🏃' }
-];
+// No more hardcoded event types - users can create any type!
 
 const EventForm = ({ onClose, onSubmit }) => {
   const [formData, setFormData] = useState({
