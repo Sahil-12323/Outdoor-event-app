@@ -426,20 +426,12 @@ const FreeMapView = ({ events, selectedEvent, onEventSelect, onEventDeselect, on
     }, {})
   };
 
-  // Get user's location on component mount
+  // Update map center when user location is available
   useEffect(() => {
-    if (navigator.geolocation) {
-      navigator.geolocation.getCurrentPosition(
-        (position) => {
-          setMapCenter([position.coords.latitude, position.coords.longitude]);
-        },
-        (error) => {
-          console.log('Geolocation error:', error);
-          // Keep default Mumbai location
-        }
-      );
+    if (userLocation && userLocation.lat && userLocation.lng) {
+      setMapCenter([userLocation.lat, userLocation.lng]);
     }
-  }, []);
+  }, [userLocation]);
 
   // Filter events based on selected filter
   const filteredEvents = events.filter(event => 
