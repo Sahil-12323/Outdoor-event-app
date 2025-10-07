@@ -1,0 +1,131 @@
+╔═══════════════════════════════════════════════════════════════╗
+║                                                               ║
+║        🐛 DEBUG: Events Not Showing on Map 🐛                ║
+║                                                               ║
+╚═══════════════════════════════════════════════════════════════╝
+
+🔍 ADDED DEBUG LOGGING TO CHECK EVENTS
+
+═══════════════════════════════════════════════════════════════
+
+📝 WHAT TO DO:
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+1. Open the app in your browser: http://localhost:3000
+
+2. Open Browser Console (Developer Tools):
+   - Windows/Linux: Press F12
+   - Mac: Press Cmd + Option + I
+   
+3. Go to the "Console" tab
+
+4. Look for these log messages:
+   - "Total events: X"
+   - "Filtered events: X"
+   - "Events data: [...]"
+
+═══════════════════════════════════════════════════════════════
+
+🧪 CHECK THE FOLLOWING:
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+SCENARIO 1: "Total events: 0"
+  → Backend is not returning events
+  → Check if backend is running
+  → Check MongoDB has events
+  
+SCENARIO 2: "Total events: 5" but markers not visible
+  → Events are loaded but not rendering
+  → Check event data structure in console
+  → Look for location.lat and location.lng
+
+SCENARIO 3: Events show but icons/descriptions missing
+  → Markers rendering but click not working
+  → Check for JavaScript errors in console
+
+═══════════════════════════════════════════════════════════════
+
+📊 WHAT EVENT DATA SHOULD LOOK LIKE:
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+Each event should have:
+{
+  "id": "some-uuid",
+  "title": "Event Title",
+  "description": "Event description",
+  "event_type": "hiking",
+  "location": {
+    "lat": 19.0760,
+    "lng": 72.8777,
+    "address": "Mumbai, India"
+  },
+  "event_date": "2024-01-01T10:00:00",
+  "participants": ["user-id-1"],
+  "created_by": "user-id"
+}
+
+═══════════════════════════════════════════════════════════════
+
+🔍 COMMON ISSUES:
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+1. BACKEND NOT RUNNING
+   → Start backend: cd backend && python server.py
+
+2. MONGODB NOT RUNNING
+   → Start MongoDB: mongod
+   → Or: sudo systemctl start mongod
+
+3. NO EVENTS IN DATABASE
+   → Create a new event via the app
+   → Check "All Events" tab to see if it appears
+
+4. CORS ISSUES
+   → Check backend console for CORS errors
+   → Verify CORS_ORIGINS in backend/.env
+
+5. LOCATION DATA MISSING
+   → Event location must have lat, lng, address
+   → Check event data structure in console
+
+═══════════════════════════════════════════════════════════════
+
+💡 QUICK TESTS:
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+TEST 1: Check Backend
+   curl http://localhost:8001/api/events
+   → Should return JSON array of events
+
+TEST 2: Check Frontend API Call
+   Open Network tab in DevTools
+   Look for request to /api/events
+   Check the response
+
+TEST 3: Create New Event
+   Click "Create Event" button
+   Fill in all fields
+   Submit
+   Check if it appears on map
+
+═══════════════════════════════════════════════════════════════
+
+🎯 NEXT STEPS AFTER CHECKING CONSOLE:
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+1. Tell me what the console shows:
+   - How many total events?
+   - How many filtered events?
+   - What does the event data look like?
+   - Any errors in console?
+
+2. Based on that, I can provide the exact fix!
+
+═══════════════════════════════════════════════════════════════
+
+🚨 IF YOU SEE ERRORS:
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+Copy the FULL error message from console and share it.
+That will help me identify the exact problem!
+
