@@ -204,14 +204,38 @@ const EventForm = ({ onClose, onSubmit }) => {
     if (!address.trim()) return;
     
     setIsGeocodingLocation(true);
+    setError(''); // Clear previous errors
+    
     try {
+      // First, check if it matches any popular location by partial name
+      const matchedLocation = popularLocations.find(loc => 
+        address.toLowerCase().includes(loc.name.toLowerCase()) ||
+        loc.full.toLowerCase().includes(address.toLowerCase())
+      );
+      
+      if (matchedLocation) {
+        setFormData(prev => ({
+          ...prev,
+          location: {
+            lat: matchedLocation.lat,
+            lng: matchedLocation.lng,
+            address: matchedLocation.full
+          }
+        }));
+        setIsGeocodingLocation(false);
+        return;
+      }
+      
+      // Try direct geocoding API call
       const response = await fetch(
         `https://maps.googleapis.com/maps/api/geocode/json?address=${encodeURIComponent(address)}&key=${process.env.REACT_APP_GOOGLE_MAPS_API_KEY}`
       );
       
       if (response.ok) {
         const data = await response.json();
-        if (data.results && data.results.length > 0) {
+        console.log('Geocoding response:', data); // Debug log
+        
+        if (data.status === 'OK' && data.results && data.results.length > 0) {
           const location = data.results[0].geometry.location;
           const formattedAddress = data.results[0].formatted_address;
           
@@ -223,16 +247,81 @@ const EventForm = ({ onClose, onSubmit }) => {
               address: formattedAddress
             }
           }));
+        } else if (data.status === 'REQUEST_DENIED') {
+          // Fallback for API key issues - use Mumbai as default
+          setFormData(prev => ({
+            ...prev,
+            location: {
+              lat: 19.0760,
+              lng: 72.8777,
+              address: address // Keep user's input as address
+            }
+          }));
+          console.warn('Geocoding API access denied, using default Mumbai coordinates');
         } else {
-          setError('Address not found. Please try a different address.');
+          // For manual input, provide a helpful default
+          const defaultCoords = getDefaultCoordinates(address);
+          if (defaultCoords) {
+            setFormData(prev => ({
+              ...prev,
+              location: {
+                lat: defaultCoords.lat,
+                lng: defaultCoords.lng,
+                address: address
+              }
+            }));
+          } else {
+            setError('Please select from suggestions or enter a more specific address (city, state).');
+          }
         }
+      } else {
+        throw new Error(`Geocoding API error: ${response.status}`);
       }
     } catch (error) {
       console.error('Geocoding error:', error);
-      setError('Failed to find location. Please try again.');
+      
+      // Fallback: try to extract city/state and use default coordinates
+      const defaultCoords = getDefaultCoordinates(address);
+      if (defaultCoords) {
+        setFormData(prev => ({
+          ...prev,
+          location: {
+            lat: defaultCoords.lat,
+            lng: defaultCoords.lng,
+            address: address
+          }
+        }));
+      } else {
+        setError('Unable to find location. Please select from the dropdown suggestions or try a different address.');
+      }
     } finally {
       setIsGeocodingLocation(false);
     }
+  };
+  
+  // Helper function to get default coordinates for common locations
+  const getDefaultCoordinates = (address) => {
+    const lowerAddress = address.toLowerCase();
+    
+    // City mappings for fallback
+    const cityMappings = {
+      'mumbai': { lat: 19.0760, lng: 72.8777 },
+      'pune': { lat: 18.5204, lng: 73.8567 },
+      'bangalore': { lat: 12.9716, lng: 77.5946 },
+      'delhi': { lat: 28.7041, lng: 77.1025 },
+      'goa': { lat: 15.2993, lng: 74.1240 },
+      'kolkata': { lat: 22.5726, lng: 88.3639 },
+      'chennai': { lat: 13.0827, lng: 80.2707 },
+      'hyderabad': { lat: 17.3850, lng: 78.4867 }
+    };
+    
+    for (const [city, coords] of Object.entries(cityMappings)) {
+      if (lowerAddress.includes(city)) {
+        return coords;
+      }
+    }
+    
+    return null;
   };
 
   // Handle click outside to close dropdowns
