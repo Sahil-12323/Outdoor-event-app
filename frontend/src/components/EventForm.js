@@ -171,14 +171,33 @@ const EventForm = ({ onClose, onSubmit }) => {
   // Select a location suggestion
   const selectLocationSuggestion = async (suggestion) => {
     const address = suggestion.description;
-    setFormData(prev => ({
-      ...prev,
-      location: { ...prev.location, address }
-    }));
-    setShowLocationDropdown(false);
     
-    // Get detailed location info
-    await geocodeAddress(address);
+    // Check if this is a popular location with predefined coordinates
+    const popularLocation = popularLocations.find(loc => 
+      loc.full === address || loc.name === suggestion.structured_formatting?.main_text
+    );
+    
+    if (popularLocation) {
+      // Use predefined coordinates for popular locations
+      setFormData(prev => ({
+        ...prev,
+        location: {
+          lat: popularLocation.lat,
+          lng: popularLocation.lng,
+          address: popularLocation.full
+        }
+      }));
+      setShowLocationDropdown(false);
+      setError(''); // Clear any previous errors
+    } else {
+      // For other locations, try geocoding
+      setFormData(prev => ({
+        ...prev,
+        location: { ...prev.location, address }
+      }));
+      setShowLocationDropdown(false);
+      await geocodeAddress(address);
+    }
   };
 
   const geocodeAddress = async (address) => {
