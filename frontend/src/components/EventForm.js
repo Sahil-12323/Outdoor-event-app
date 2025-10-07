@@ -350,17 +350,49 @@ const EventForm = ({ onClose, onSubmit }) => {
 
           <div className="form-group">
             <Label htmlFor="address">Location *</Label>
-            <Input
-              id="address"
-              value={formData.location.address}
-              onChange={(e) => handleInputChange('location.address', e.target.value)}
-              onBlur={handleAddressBlur}
-              placeholder="Enter address, park name, or landmark"
-              required
-              data-testid="event-address-input"
-            />
+            <div className="relative" ref={locationInputRef}>
+              <Input
+                id="address"
+                value={formData.location.address}
+                onChange={(e) => handleLocationInputChange(e.target.value)}
+                onBlur={handleAddressBlur}
+                placeholder="Start typing location (e.g., Mumbai, Pune, Bangalore...)"
+                required
+                data-testid="event-address-input"
+              />
+              
+              {showLocationDropdown && locationSuggestions.length > 0 && (
+                <div 
+                  ref={locationDropdownRef}
+                  className="absolute z-50 w-full mt-1 bg-white border border-gray-300 rounded-lg shadow-lg max-h-60 overflow-y-auto"
+                  data-testid="location-suggestions"
+                >
+                  {locationSuggestions.map((suggestion, index) => (
+                    <div
+                      key={suggestion.place_id || index}
+                      onClick={() => selectLocationSuggestion(suggestion)}
+                      className="px-3 py-2 hover:bg-emerald-50 cursor-pointer border-b border-gray-100 last:border-b-0"
+                      data-testid={`location-suggestion-${index}`}
+                    >
+                      <div className="font-medium text-gray-900">
+                        {suggestion.structured_formatting?.main_text || suggestion.description}
+                      </div>
+                      {suggestion.structured_formatting?.secondary_text && (
+                        <div className="text-sm text-gray-500">
+                          {suggestion.structured_formatting.secondary_text}
+                        </div>
+                      )}
+                    </div>
+                  ))}
+                </div>
+              )}
+            </div>
+            
+            {isLoadingPlaces && (
+              <p className="text-sm text-blue-600 mt-1">🔍 Searching locations...</p>
+            )}
             {isGeocodingLocation && (
-              <p className="text-sm text-blue-600 mt-1">📍 Finding location...</p>
+              <p className="text-sm text-blue-600 mt-1">📍 Finding location details...</p>
             )}
             {formData.location.lat && formData.location.lng && (
               <p className="text-sm text-green-600 mt-1">✓ Location confirmed</p>
