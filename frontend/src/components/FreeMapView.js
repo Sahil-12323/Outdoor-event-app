@@ -206,6 +206,7 @@ const EventMarker = ({ event, onJoin, onLeave, onShowChat, currentUserId, isHove
             </a>
           </div>
         </div>
+        </>
       )}
     </>
   );
