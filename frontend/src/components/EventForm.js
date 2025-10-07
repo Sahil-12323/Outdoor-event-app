@@ -66,6 +66,34 @@ const EventForm = ({ onClose, onSubmit }) => {
     }
   };
 
+  // Handle location input change with autocomplete
+  const handleLocationInputChange = (value) => {
+    handleInputChange('location.address', value);
+    if (value.length > 2) {
+      searchLocationSuggestions(value);
+    } else {
+      setLocationSuggestions([]);
+      setShowLocationDropdown(false);
+    }
+  };
+
+  // Handle event type search
+  const handleEventTypeSearch = (value) => {
+    setEventTypeSearch(value);
+    setShowEventTypeDropdown(true);
+  };
+
+  // Filter event types based on search
+  const filteredEventTypes = EVENT_TYPES.filter(type =>
+    type.label.toLowerCase().includes(eventTypeSearch.toLowerCase())
+  );
+
+  const selectEventType = (type) => {
+    setFormData(prev => ({ ...prev, event_type: type.value }));
+    setEventTypeSearch(type.label);
+    setShowEventTypeDropdown(false);
+  };
+
   const geocodeAddress = async (address) => {
     if (!address.trim()) return;
     
