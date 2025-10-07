@@ -119,6 +119,9 @@ frontend:
         - working: true
           agent: "testing"
           comment: "✅ Z-index layering fix SUCCESSFUL! Tested hover functionality on multiple event markers. Results: Filter button z-index: 10, Popup z-index: 999999, Backdrop z-index: 999998. Popup appears correctly above all UI elements including filter button. Popup is properly centered, backdrop visible, content readable, buttons clickable, and disappears correctly when mouse moves away. No overlapping issues detected."
+        - working: true
+          agent: "testing"
+          comment: "✅ UPDATED Z-INDEX LAYERING FIX VERIFIED! Comprehensive testing completed after stacking context fixes. Key results: 1) Filter button z-index: 1 (reduced from previous 10), 2) Popup z-index: 9999999 (correct), 3) Backdrop z-index: 9999998 (correct), 4) Popup properly centered using calc() positioning instead of transform, 5) No stacking context conflicts from backdrop-blur-sm removal, 6) Popup appears above all UI elements as intended, 7) Popup disappears correctly on mouse move, 8) All popup content (title, buttons) functional. The stacking context isolation issue has been completely resolved - hover popups now display correctly above the 'All Events' filter button and all other UI elements."
 
 metadata:
   created_by: "main_agent"
