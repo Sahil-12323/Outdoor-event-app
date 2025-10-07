@@ -486,28 +486,22 @@ function App() {
                           <div className="absolute inset-0 rounded-3xl bg-white/20 opacity-0 group-hover:opacity-100 group-hover:animate-ping transition-opacity duration-300"></div>
                         </button>
 
-                        {/* User Profile */}
+                        {/* User Profile - Round Button */}
                         <button
                           onClick={() => setShowProfile(true)}
-                          className="group flex items-center space-x-3 bg-white/20 hover:bg-white/30 backdrop-blur-sm rounded-2xl px-4 py-2.5 transition-all duration-300 border border-white/30 shadow-lg hover:shadow-xl transform hover:scale-105"
+                          className="group relative flex items-center space-x-3 bg-white/20 hover:bg-white/30 backdrop-blur-sm rounded-full px-3 py-2 transition-all duration-300 border border-white/30 shadow-lg hover:shadow-xl transform hover:scale-105"
                           data-testid="profile-btn"
                         >
                           <div className="relative">
                             <img
                               src={user.picture}
                               alt={user.name}
-                              className="w-10 h-10 rounded-xl border-2 border-white/50 shadow-lg"
+                              className="w-9 h-9 rounded-full border-2 border-white/50 shadow-lg"
                             />
-                            <div className="absolute -bottom-1 -right-1 w-4 h-4 bg-green-400 border-2 border-white rounded-full"></div>
+                            <div className="absolute -bottom-1 -right-1 w-3 h-3 bg-green-400 border-2 border-white rounded-full"></div>
                           </div>
-                          <div className="hidden sm:block text-left">
-                            <p className="text-white font-semibold text-sm">{user.name}</p>
-                            <p className="text-emerald-100 text-xs">Explorer</p>
-                          </div>
-                          <div className="text-white/70 group-hover:text-white transition-colors">
-                            <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
-                            </svg>
+                          <div className="text-left">
+                            <p className="text-white font-semibold text-sm">{user.name.split(' ')[0]}</p>
                           </div>
                         </button>
                       </div>
