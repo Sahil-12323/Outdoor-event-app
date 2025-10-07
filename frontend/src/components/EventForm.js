@@ -34,6 +34,19 @@ const EventForm = ({ onClose, onSubmit }) => {
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [error, setError] = useState('');
   const [isGeocodingLocation, setIsGeocodingLocation] = useState(false);
+  
+  // Location autocomplete states
+  const [locationSuggestions, setLocationSuggestions] = useState([]);
+  const [showLocationDropdown, setShowLocationDropdown] = useState(false);
+  const [isLoadingPlaces, setIsLoadingPlaces] = useState(false);
+  const locationInputRef = useRef(null);
+  const locationDropdownRef = useRef(null);
+  
+  // Event type search states  
+  const [eventTypeSearch, setEventTypeSearch] = useState('');
+  const [showEventTypeDropdown, setShowEventTypeDropdown] = useState(false);
+  const eventTypeInputRef = useRef(null);
+  const eventTypeDropdownRef = useRef(null);
 
   const handleInputChange = (field, value) => {
     if (field.includes('location.')) {
