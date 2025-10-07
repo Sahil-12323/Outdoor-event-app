@@ -75,18 +75,32 @@ const EventMarker = ({ event, onJoin, onLeave, onShowChat, currentUserId, isHove
       
       {/* Hover Popup - Always on top */}
       {isHovered && (
-        <div 
-          className="event-hover-popup bg-white rounded-xl shadow-2xl border border-gray-200 p-4 max-w-sm w-80"
-          style={{
-            position: 'fixed',
-            top: '50%',
-            left: '50%',
-            transform: 'translate(-50%, -50%)',
-            zIndex: 99999
-          }}
-          onMouseEnter={() => onHover(event.id)}
-          onMouseLeave={onLeaveHover}
-        >
+        <>
+          {/* Backdrop to ensure popup visibility */}
+          <div 
+            style={{
+              position: 'fixed',
+              top: 0,
+              left: 0,
+              right: 0,
+              bottom: 0,
+              zIndex: 99998,
+              pointerEvents: 'none',
+              backgroundColor: 'rgba(0, 0, 0, 0.1)'
+            }}
+          />
+          <div 
+            className="event-hover-popup bg-white rounded-xl shadow-2xl border border-gray-200 p-4 max-w-sm w-80"
+            style={{
+              position: 'fixed',
+              top: '50%',
+              left: '50%',
+              transform: 'translate(-50%, -50%)',
+              zIndex: 99999
+            }}
+            onMouseEnter={() => onHover(event.id)}
+            onMouseLeave={onLeaveHover}
+          >
           {/* Header */}
           <div className="flex items-start justify-between mb-3">
             <div className="flex-1 pr-2">
