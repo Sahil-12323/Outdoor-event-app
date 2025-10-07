@@ -381,14 +381,14 @@ const MapControls = ({ onFilterChange, selectedFilter, eventCounts, availableTyp
         className="bg-white/70 rounded-lg shadow-md border border-gray-200/50 px-3 py-2 flex items-center space-x-2 hover:bg-white/80 transition-all duration-200 text-sm"
         style={{ zIndex: 1 }}
       >
-        <span className="text-lg">🎯</span>
-        <span className="font-medium text-gray-700">
+        <span className="text-sm">🎯</span>
+        <span className="font-medium text-gray-700 text-sm">
           {selectedFilter === 'all' ? 'All Events' : getEventTypeConfig(selectedFilter).label}
         </span>
-        <span className="text-xs bg-emerald-500 text-white px-2 py-1 rounded-full">
+        <span className="text-xs bg-emerald-500 text-white px-1.5 py-0.5 rounded-full text-xs">
           {selectedFilter === 'all' ? eventCounts.all : (eventCounts[selectedFilter] || 0)}
         </span>
-        <svg className={`w-4 h-4 text-gray-500 transition-transform ${showDropdown ? 'rotate-180' : ''}`} fill="none" stroke="currentColor" viewBox="0 0 24 24">
+        <svg className={`w-3 h-3 text-gray-500 transition-transform ${showDropdown ? 'rotate-180' : ''}`} fill="none" stroke="currentColor" viewBox="0 0 24 24">
           <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
         </svg>
       </button>
