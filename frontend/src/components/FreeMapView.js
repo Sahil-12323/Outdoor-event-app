@@ -12,25 +12,8 @@ L.Icon.Default.mergeOptions({
   shadowUrl: 'https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/images/marker-shadow.png',
 });
 
-// Event type configuration
-const EVENT_TYPE_CONFIG = {
-  hiking: { color: '#059669', icon: '🥾', label: 'Hiking' },
-  camping: { color: '#0d9488', icon: '⛺', label: 'Camping' },
-  cycling: { color: '#0891b2', icon: '🚴', label: 'Cycling' },
-  sports: { color: '#2563eb', icon: '⚽', label: 'Sports' },
-  workshop: { color: '#7c3aed', icon: '🎨', label: 'Workshop' },
-  festival: { color: '#dc2626', icon: '🎪', label: 'Festival' },
-  climbing: { color: '#ea580c', icon: '🧗', label: 'Climbing' },
-  kayaking: { color: '#0284c7', icon: '🛶', label: 'Kayaking' },
-  running: { color: '#16a34a', icon: '🏃', label: 'Running' }
-};
-
-// Helper function to get event type config
-const getEventTypeConfig = (eventType) => {
-  return EVENT_TYPE_CONFIG[eventType] || EVENT_TYPE_CONFIG.hiking;
-};
-
 // Create custom colored markers for different event types
+// Note: getEventTypeConfig is defined later in the file with comprehensive type mapping
 const createCustomIcon = (eventType) => {
   const config = getEventTypeConfig(eventType);
   
@@ -658,7 +641,7 @@ const FreeMapView = ({ events, selectedEvent, onEventSelect, onEventDeselect, on
           </div>
           {filter !== 'all' && (
             <div className="mt-1 flex items-center justify-center space-x-1">
-              <span className="text-sm">{EVENT_TYPE_CONFIG[filter]?.icon}</span>
+              <span className="text-sm">{getEventTypeConfig(filter)?.icon}</span>
             </div>
           )}
         </div>
