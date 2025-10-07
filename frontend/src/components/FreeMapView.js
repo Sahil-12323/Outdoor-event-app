@@ -641,7 +641,7 @@ const FreeMapView = ({ events, selectedEvent, onEventSelect, onEventDeselect, on
           </div>
           {filter !== 'all' && (
             <div className="mt-1 flex items-center justify-center space-x-1">
-              <span className="text-sm">{EVENT_TYPE_CONFIG[filter]?.icon}</span>
+              <span className="text-sm">{getEventTypeConfig(filter)?.icon}</span>
             </div>
           )}
         </div>
