@@ -132,7 +132,14 @@ function App() {
 
   const createEvent = async (eventData) => {
     try {
-      const token = localStorage.getItem('trailmeet_token');
+      let token = localStorage.getItem('trailmeet_token');
+      
+      // If no token, try to get a new one
+      if (!token) {
+        await loginWithDemo();
+        token = localStorage.getItem('trailmeet_token');
+      }
+
       const response = await fetch(`${API_BASE}/events`, {
         method: 'POST',
         headers: {
