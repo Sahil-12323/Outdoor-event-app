@@ -149,7 +149,16 @@ function App() {
         toast.success('Event created successfully!');
         return newEvent;
       } else {
-        throw new Error('Failed to create event');
+        const errorData = await response.text();
+        console.error('Event creation failed:', response.status, errorData);
+        if (response.status === 401) {
+          toast.error('Authentication expired. Please refresh the page.');
+          // Try to re-authenticate
+          await loginWithDemo();
+        } else {
+          toast.error(`Failed to create event: ${response.status}`);
+        }
+        throw new Error(`Failed to create event: ${response.status}`);
       }
     } catch (error) {
       console.error('Error creating event:', error);
