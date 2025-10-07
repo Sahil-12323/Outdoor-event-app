@@ -78,13 +78,14 @@ const EventMarker = ({ event, onJoin, onLeave, onShowChat, currentUserId, isHove
         <>
           {/* Backdrop to ensure popup visibility */}
           <div 
+            className="popup-backdrop"
             style={{
               position: 'fixed',
               top: 0,
               left: 0,
               right: 0,
               bottom: 0,
-              zIndex: 999998,
+              zIndex: 9999998,
               pointerEvents: 'none',
               backgroundColor: 'rgba(0, 0, 0, 0.1)'
             }}
@@ -96,7 +97,7 @@ const EventMarker = ({ event, onJoin, onLeave, onShowChat, currentUserId, isHove
               top: '50%',
               left: '50%',
               transform: 'translate(-50%, -50%)',
-              zIndex: 999999
+              zIndex: 9999999
             }}
             onMouseEnter={() => onHover(event.id)}
             onMouseLeave={onLeaveHover}
