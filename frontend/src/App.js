@@ -352,12 +352,56 @@ function App() {
     isAuthenticated: !!user
   };
 
-  if (loading) {
+  if (loading || locationLoading) {
     return (
-      <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-emerald-50 to-blue-50">
-        <div className="text-center">
-          <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-emerald-600 mx-auto mb-4"></div>
-          <p className="text-gray-600 font-medium">Loading TrailMeet...</p>
+      <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-emerald-50 via-teal-50 to-blue-50">
+        <div className="text-center max-w-md mx-auto p-8">
+          {/* Animated Logo */}
+          <div className="relative mb-8">
+            <div className="w-20 h-20 bg-gradient-to-br from-emerald-500 to-teal-600 rounded-2xl flex items-center justify-center mx-auto shadow-lg animate-pulse">
+              <span className="text-3xl">🌄</span>
+            </div>
+            <div className="absolute -top-2 -right-2 w-8 h-8 bg-gradient-to-br from-orange-400 to-red-500 rounded-full flex items-center justify-center shadow-md animate-bounce">
+              <span className="text-sm">🔥</span>
+            </div>
+          </div>
+
+          {/* Loading Text */}
+          <h2 className="text-2xl font-bold text-gray-800 mb-2">TrailMeet</h2>
+          <p className="text-gray-600 font-medium mb-6">Discover & Share Outdoor Adventures</p>
+
+          {/* Loading States */}
+          <div className="space-y-4">
+            {loading && (
+              <div className="flex items-center justify-center space-x-3">
+                <div className="animate-spin rounded-full h-6 w-6 border-b-2 border-emerald-600"></div>
+                <span className="text-gray-600">Setting up your account...</span>
+              </div>
+            )}
+            
+            {locationLoading && (
+              <div className="flex items-center justify-center space-x-3">
+                <div className="animate-pulse">📍</div>
+                <span className="text-gray-600">Detecting your location...</span>
+              </div>
+            )}
+
+            {userLocation && !locationLoading && (
+              <div className="flex items-center justify-center space-x-2 text-emerald-600">
+                <span>📍</span>
+                <span className="font-medium">{userLocation.city}</span>
+              </div>
+            )}
+          </div>
+
+          {/* Permission Hint */}
+          {locationLoading && (
+            <div className="mt-6 p-4 bg-blue-50 rounded-lg border border-blue-200">
+              <p className="text-xs text-blue-700">
+                💡 Please allow location access to find events near you
+              </p>
+            </div>
+          )}
         </div>
       </div>
     );
