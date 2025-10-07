@@ -4,10 +4,13 @@
 @import 'tailwindcss/utilities';
 
 /* Leaflet Map Styles */
+@import 'https://unpkg.com/leaflet@1.9.4/dist/leaflet.css';
+
 .leaflet-container {
-  height: 100%;
-  width: 100%;
-  z-index: 1;
+  height: 100% !important;
+  width: 100% !important;
+  z-index: 1 !important;
+  background: #f1f5f9;
 }
 
 .custom-div-icon {
@@ -27,6 +30,13 @@
 /* Fix z-index issues */
 .z-1000 {
   z-index: 1000;
+}
+
+/* Map container specific styles */
+.map-container {
+  height: calc(100vh - 4rem) !important;
+  width: 100% !important;
+  position: relative;
 }
 
 /* Global Styles */
