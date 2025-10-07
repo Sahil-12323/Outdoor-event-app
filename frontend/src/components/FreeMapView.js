@@ -446,6 +446,9 @@ const FreeMapView = ({ events, selectedEvent, onEventSelect, onEventDeselect, on
         style={{ height: '100%', width: '100%' }}
         className="z-0"
         data-testid="leaflet-map"
+        zoomControl={false}
+        scrollWheelZoom={true}
+        doubleClickZoom={true}
       >
         <TileLayer
           attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
