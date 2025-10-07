@@ -72,10 +72,11 @@ const EventMarker = ({ event, onJoin, onLeave, onDelete, onShowChat, currentUser
   };
 
   const handleMouseLeave = () => {
-    // Add a small delay before hiding to prevent flicker
+    // Add a delay before hiding to prevent flicker
+    // Increased to 300ms for better stability
     hoverTimeoutRef.current = setTimeout(() => {
       onLeaveHover();
-    }, 100);
+    }, 300);
   };
 
   const handlePopupMouseEnter = () => {
@@ -113,15 +114,20 @@ const EventMarker = ({ event, onJoin, onLeave, onDelete, onShowChat, currentUser
         position={[event.location.lat, event.location.lng]} 
         icon={createCustomIcon(event.event_type)}
         eventHandlers={{
-          mouseover: handleMouseEnter,
-          mouseout: handleMouseLeave
+          click: () => {
+            // Click to open - more stable than hover
+            if (hoverTimeoutRef.current) {
+              clearTimeout(hoverTimeoutRef.current);
+            }
+            onHover(event.id);
+          }
         }}
       />
       
       {/* Hover Popup - Always on top */}
       {isHovered && (
         <>
-          {/* Backdrop to ensure popup visibility */}
+          {/* Backdrop - click anywhere to close */}
           <div 
             className="popup-backdrop"
             style={{
@@ -131,18 +137,22 @@ const EventMarker = ({ event, onJoin, onLeave, onDelete, onShowChat, currentUser
               right: 0,
               bottom: 0,
               zIndex: 9999998,
-              pointerEvents: 'none',
-              backgroundColor: 'rgba(0, 0, 0, 0.1)'
+              pointerEvents: 'auto',
+              backgroundColor: 'rgba(0, 0, 0, 0.2)',
+              cursor: 'default'
             }}
+            onClick={handleClosePopup}
+            onMouseEnter={handlePopupMouseEnter}
           />
           <div 
-            className="event-hover-popup bg-white rounded-xl shadow-2xl border border-gray-200 p-4 max-w-sm w-80"
+            className="event-hover-popup bg-white rounded-xl shadow-2xl border-2 border-gray-300 p-4 max-w-sm w-80"
             style={{
               position: 'fixed',
-              top: '20vh',
+              top: '15vh',
               left: '50%',
               marginLeft: '-160px',
-              zIndex: 9999999
+              zIndex: 9999999,
+              pointerEvents: 'auto'
             }}
             onMouseEnter={handlePopupMouseEnter}
             onMouseLeave={handlePopupMouseLeave}
