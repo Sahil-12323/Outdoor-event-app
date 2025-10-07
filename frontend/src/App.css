@@ -46,13 +46,20 @@
 /* Event hover popup styles */
 .event-hover-popup {
   position: fixed !important;
-  z-index: 999999 !important;
+  z-index: 9999999 !important;
   pointer-events: auto !important;
   backdrop-filter: blur(12px) !important;
   background: rgba(255, 255, 255, 0.98) !important;
   box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.25) !important;
   border: 1px solid rgba(255, 255, 255, 0.3) !important;
   animation: popupFadeIn 0.2s ease-out !important;
+}
+
+/* Popup backdrop */
+.popup-backdrop {
+  position: fixed !important;
+  z-index: 9999998 !important;
+  pointer-events: none !important;
 }
 
 @keyframes popupFadeIn {
