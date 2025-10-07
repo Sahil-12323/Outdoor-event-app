@@ -452,6 +452,7 @@ const FreeMapView = ({ events, selectedEvent, onEventSelect, onEventDeselect, on
   const { user, joinEvent, leaveEvent } = useAuth();
   const [mapCenter, setMapCenter] = useState([19.0760, 72.8777]); // Default fallback
   const [filter, setFilter] = useState('all');
+  const [hoveredEventId, setHoveredEventId] = useState(null);
 
   // Get all unique event types dynamically from actual events
   const availableTypes = [...new Set(events.map(event => event.event_type))].sort();
