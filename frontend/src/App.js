@@ -1,10 +1,9 @@
 import React, { useState, useEffect } from 'react';
 import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom';
-import { APIProvider } from '@vis.gl/react-google-maps';
 import './App.css';
 import { Toaster } from './components/ui/sonner';
 import { toast } from 'sonner';
-import MapView from './components/MapView';
+import FreeMapView from './components/FreeMapView';
 import AuthWrapper from './components/AuthWrapper';
 import EventForm from './components/EventForm';
 import ChatPanel from './components/ChatPanel';
