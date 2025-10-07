@@ -73,7 +73,7 @@ const EventMarker = ({ event, onJoin, onLeave, onShowChat, currentUserId, isHove
         }}
       />
       
-      {/* Hover Popup - Custom positioned */}
+      {/* Hover Popup - Always on top */}
       {isHovered && (
         <div 
           className="event-hover-popup bg-white rounded-xl shadow-2xl border border-gray-200 p-4 max-w-sm w-80"
@@ -82,7 +82,7 @@ const EventMarker = ({ event, onJoin, onLeave, onShowChat, currentUserId, isHove
             top: '50%',
             left: '50%',
             transform: 'translate(-50%, -50%)',
-            zIndex: 10000
+            zIndex: 99999
           }}
           onMouseEnter={() => onHover(event.id)}
           onMouseLeave={onLeaveHover}
