@@ -94,23 +94,26 @@ const EventForm = ({ onClose, onSubmit }) => {
     setShowEventTypeDropdown(false);
   };
 
-  // Popular locations in India for outdoor activities
+  // Popular locations in India for outdoor activities with coordinates
   const popularLocations = [
-    { name: "Mumbai", full: "Mumbai, Maharashtra, India", type: "city" },
-    { name: "Pune", full: "Pune, Maharashtra, India", type: "city" },
-    { name: "Bangalore", full: "Bangalore, Karnataka, India", type: "city" },
-    { name: "Delhi", full: "Delhi, India", type: "city" },
-    { name: "Goa", full: "Goa, India", type: "state" },
-    { name: "Manali", full: "Manali, Himachal Pradesh, India", type: "hill_station" },
-    { name: "Rishikesh", full: "Rishikesh, Uttarakhand, India", type: "adventure" },
-    { name: "Ooty", full: "Ooty, Tamil Nadu, India", type: "hill_station" },
-    { name: "Lonavala", full: "Lonavala, Maharashtra, India", type: "hill_station" },
-    { name: "Mahabaleshwar", full: "Mahabaleshwar, Maharashtra, India", type: "hill_station" },
-    { name: "Sanjay Gandhi National Park", full: "Sanjay Gandhi National Park, Mumbai, Maharashtra", type: "park" },
-    { name: "Marine Drive", full: "Marine Drive, Mumbai, Maharashtra", type: "landmark" },
-    { name: "Gateway of India", full: "Gateway of India, Mumbai, Maharashtra", type: "landmark" },
-    { name: "Juhu Beach", full: "Juhu Beach, Mumbai, Maharashtra", type: "beach" },
-    { name: "Karnala Fort", full: "Karnala Fort, Panvel, Maharashtra", type: "fort" }
+    { name: "Mumbai", full: "Mumbai, Maharashtra, India", type: "city", lat: 19.0760, lng: 72.8777 },
+    { name: "Pune", full: "Pune, Maharashtra, India", type: "city", lat: 18.5204, lng: 73.8567 },
+    { name: "Bangalore", full: "Bangalore, Karnataka, India", type: "city", lat: 12.9716, lng: 77.5946 },
+    { name: "Delhi", full: "Delhi, India", type: "city", lat: 28.7041, lng: 77.1025 },
+    { name: "Goa", full: "Goa, India", type: "state", lat: 15.2993, lng: 74.1240 },
+    { name: "Manali", full: "Manali, Himachal Pradesh, India", type: "hill_station", lat: 32.2396, lng: 77.1887 },
+    { name: "Rishikesh", full: "Rishikesh, Uttarakhand, India", type: "adventure", lat: 30.0869, lng: 78.2676 },
+    { name: "Ooty", full: "Ooty, Tamil Nadu, India", type: "hill_station", lat: 11.4102, lng: 76.6950 },
+    { name: "Lonavala", full: "Lonavala, Maharashtra, India", type: "hill_station", lat: 18.7537, lng: 73.4074 },
+    { name: "Mahabaleshwar", full: "Mahabaleshwar, Maharashtra, India", type: "hill_station", lat: 17.9234, lng: 73.6581 },
+    { name: "Sanjay Gandhi National Park", full: "Sanjay Gandhi National Park, Mumbai, Maharashtra", type: "park", lat: 19.2094, lng: 72.9570 },
+    { name: "Marine Drive", full: "Marine Drive, Mumbai, Maharashtra", type: "landmark", lat: 18.9434, lng: 72.8234 },
+    { name: "Gateway of India", full: "Gateway of India, Mumbai, Maharashtra", type: "landmark", lat: 18.9220, lng: 72.8347 },
+    { name: "Juhu Beach", full: "Juhu Beach, Mumbai, Maharashtra", type: "beach", lat: 19.1075, lng: 72.8263 },
+    { name: "Karnala Fort", full: "Karnala Fort, Panvel, Maharashtra", type: "fort", lat: 18.9050, lng: 73.1047 },
+    { name: "Chhatrapati Shivaji Park", full: "Chhatrapati Shivaji Park, Mumbai, Maharashtra", type: "park", lat: 19.0260, lng: 72.8397 },
+    { name: "Powai Lake", full: "Powai Lake, Mumbai, Maharashtra", type: "lake", lat: 19.1197, lng: 72.9078 },
+    { name: "Elephanta Caves", full: "Elephanta Caves, Mumbai, Maharashtra", type: "heritage", lat: 18.9633, lng: 72.9314 }
   ];
 
   // Search for location suggestions (hybrid approach)
