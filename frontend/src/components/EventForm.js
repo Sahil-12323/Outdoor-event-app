@@ -116,7 +116,7 @@ const EventForm = ({ onClose, onSubmit }) => {
     { name: "Elephanta Caves", full: "Elephanta Caves, Mumbai, Maharashtra", type: "heritage", lat: 18.9633, lng: 72.9314 }
   ];
 
-  // Search for location suggestions (hybrid approach)
+  // Search for location suggestions (free approach)
   const searchLocationSuggestions = async (input) => {
     if (!input.trim() || input.length < 2) {
       setLocationSuggestions([]);
@@ -126,7 +126,7 @@ const EventForm = ({ onClose, onSubmit }) => {
     
     setIsLoadingPlaces(true);
     
-    // Filter popular locations first
+    // Filter popular locations
     const filteredPopular = popularLocations.filter(loc =>
       loc.name.toLowerCase().includes(input.toLowerCase()) ||
       loc.full.toLowerCase().includes(input.toLowerCase())
@@ -142,30 +142,9 @@ const EventForm = ({ onClose, onSubmit }) => {
       }
     }));
 
-    setLocationSuggestions(suggestions.slice(0, 5));
+    setLocationSuggestions(suggestions.slice(0, 8));
     setShowLocationDropdown(suggestions.length > 0);
     setIsLoadingPlaces(false);
-
-    // Optional: Try Google Places API as backup (if CORS allows)
-    try {
-      const corsProxy = 'https://api.allorigins.win/raw?url=';
-      const placesUrl = `https://maps.googleapis.com/maps/api/place/autocomplete/json?input=${encodeURIComponent(input)}&key=${process.env.REACT_APP_GOOGLE_MAPS_API_KEY}&components=country:in`;
-      
-      const response = await fetch(corsProxy + encodeURIComponent(placesUrl));
-      if (response.ok) {
-        const data = await response.json();
-        if (data.predictions && data.predictions.length > 0) {
-          const googleSuggestions = data.predictions.slice(0, 3).map(pred => ({
-            ...pred,
-            place_id: `google_${pred.place_id}`
-          }));
-          setLocationSuggestions([...suggestions.slice(0, 2), ...googleSuggestions]);
-        }
-      }
-    } catch (error) {
-      // Silently fail for Google Places API, use popular locations only
-      console.log('Google Places API not accessible, using local suggestions');
-    }
   };
 
   // Select a location suggestion
