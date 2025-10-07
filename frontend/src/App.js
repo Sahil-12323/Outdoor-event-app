@@ -275,7 +275,7 @@ function App() {
                     <Route
                       path="/"
                       element={
-                        <MapView
+                        <FreeMapView
                           events={events}
                           selectedEvent={selectedEvent}
                           onEventSelect={setSelectedEvent}
