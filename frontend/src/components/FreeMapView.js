@@ -26,7 +26,7 @@ const EVENT_TYPE_CONFIG = {
 
 // Create custom colored markers for different event types
 const createCustomIcon = (eventType) => {
-  const config = EVENT_TYPE_CONFIG[eventType] || EVENT_TYPE_CONFIG.hiking;
+  const config = getEventTypeConfig(eventType);
   
   return L.divIcon({
     html: `
