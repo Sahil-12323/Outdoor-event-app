@@ -1,5 +1,6 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { MapContainer, TileLayer, Marker, Popup } from 'react-leaflet';
+import { createPortal } from 'react-dom';
 import L from 'leaflet';
 import 'leaflet/dist/leaflet.css';
 import { useAuth } from '../App';
@@ -107,6 +108,189 @@ const EventMarker = ({ event, onJoin, onLeave, onDelete, onShowChat, currentUser
     };
   }, []);
 
+  // Popup content as JSX
+  const popupContent = (
+    <div className="min-w-[300px] max-w-sm">
+      {/* Header */}
+      <div className="flex items-start justify-between mb-3">
+        <div className="flex-1 pr-2">
+          <h3 className="text-lg font-bold text-gray-900 leading-tight">{event.title}</h3>
+          <span className="inline-flex items-center px-2 py-1 rounded-full text-xs font-medium bg-gradient-to-r from-emerald-100 to-teal-100 text-emerald-800 mt-2">
+            {config.icon} {config.label}
+          </span>
+        </div>
+      </div>
+
+      {/* Description */}
+      <p className="text-gray-600 text-sm leading-relaxed mb-4">
+        {event.description}
+      </p>
+
+      {/* Details Grid */}
+      <div className="space-y-3 mb-4">
+        <div className="flex items-center gap-3">
+          <span className="text-base">📍</span>
+          <div className="flex-1 min-w-0">
+            <div className="font-medium text-gray-900 text-sm">Location</div>
+            <div className="text-xs text-gray-600 truncate">{event.location.address}</div>
+          </div>
+        </div>
+
+        <div className="flex items-center gap-3">
+          <span className="text-base">📅</span>
+          <div className="flex-1 min-w-0">
+            <div className="font-medium text-gray-900 text-sm">Date & Time</div>
+            <div className="text-xs text-gray-600">{formatDate(event.event_date)}</div>
+          </div>
+        </div>
+
+        <div className="flex items-center gap-3">
+          <span className="text-base">👥</span>
+          <div className="flex-1 min-w-0">
+            <div className="font-medium text-gray-900 text-sm">Participants</div>
+            <div className="text-xs text-gray-600">
+              {event.participants?.length || 0}
+              {event.capacity && ` / ${event.capacity}`} joined
+            </div>
+          </div>
+        </div>
+      </div>
+
+      {/* Action Buttons */}
+      <div className="flex flex-wrap gap-2 pt-3 border-t border-gray-100">
+        {isCreator ? (
+          <>
+            <button
+              onClick={() => {
+                if (window.confirm(`Are you sure you want to delete "${event.title}"?`)) {
+                  onDelete(event.id);
+                }
+              }}
+              className="flex-1 px-3 py-2 bg-red-500 hover:bg-red-600 text-white text-sm rounded-lg font-medium"
+            >
+              🗑️ Delete
+            </button>
+            <button
+              onClick={() => onShowChat(event)}
+              className="px-4 py-2 bg-blue-500 hover:bg-blue-600 text-white text-sm rounded-lg font-medium"
+            >
+              💬 Chat
+            </button>
+          </>
+        ) : (
+          <>
+            {!isParticipant ? (
+              <button
+                onClick={() => onJoin(event.id)}
+                className="flex-1 px-3 py-2 bg-emerald-500 hover:bg-emerald-600 text-white text-sm rounded-lg font-medium"
+              >
+                ✓ Join
+              </button>
+            ) : (
+              <button
+                onClick={() => onLeave(event.id)}
+                className="flex-1 px-3 py-2 bg-red-500 hover:bg-red-600 text-white text-sm rounded-lg font-medium"
+              >
+                ✗ Leave
+              </button>
+            )}
+            {isParticipant && (
+              <button
+                onClick={() => onShowChat(event)}
+                className="px-4 py-2 bg-blue-500 hover:bg-blue-600 text-white text-sm rounded-lg font-medium"
+              >
+                💬 Chat
+              </button>
+            )}
+          </>
+        )}
+      </div>
+    </div>
+  );
+
+  return (
+    <Marker 
+      position={[event.location.lat, event.location.lng]} 
+      icon={createCustomIcon(event.event_type)}
+    >
+      <Popup
+        className="custom-event-popup"
+        maxWidth={400}
+        minWidth={300}
+      >
+        {popupContent}
+      </Popup>
+    </Marker>
+  );
+};
+
+// Remove the old fixed popup code below
+const OldEventMarkerCode = ({ event, onJoin, onLeave, onDelete, onShowChat, currentUserId, isHovered, onHover, onLeaveHover }) => {
+  const config = getEventTypeConfig(event.event_type);
+  const isParticipant = event.participants?.includes(currentUserId);
+  const isCreator = event.created_by === currentUserId;
+  const hoverTimeoutRef = React.useRef(null);
+
+  const formatDate = (dateString) => {
+    try {
+      const date = new Date(dateString);
+      return date.toLocaleDateString('en-US', {
+        weekday: 'short',
+        month: 'short',
+        day: 'numeric',
+        hour: 'numeric',
+        minute: '2-digit'
+      });
+    } catch {
+      return 'Date TBD';
+    }
+  };
+
+  const handleMouseEnter = () => {
+    // Clear any pending timeout
+    if (hoverTimeoutRef.current) {
+      clearTimeout(hoverTimeoutRef.current);
+    }
+    onHover(event.id);
+  };
+
+  const handleMouseLeave = () => {
+    // Add a delay before hiding to prevent flicker
+    // Increased to 300ms for better stability
+    hoverTimeoutRef.current = setTimeout(() => {
+      onLeaveHover();
+    }, 300);
+  };
+
+  const handlePopupMouseEnter = () => {
+    // Keep popup visible when mouse is over it
+    if (hoverTimeoutRef.current) {
+      clearTimeout(hoverTimeoutRef.current);
+    }
+  };
+
+  const handlePopupMouseLeave = () => {
+    // Hide popup when mouse leaves it
+    onLeaveHover();
+  };
+
+  const handleClosePopup = () => {
+    // Clear timeout and close immediately
+    if (hoverTimeoutRef.current) {
+      clearTimeout(hoverTimeoutRef.current);
+    }
+    onLeaveHover();
+  };
+
+  // Cleanup timeout on unmount
+  React.useEffect(() => {
+    return () => {
+      if (hoverTimeoutRef.current) {
+        clearTimeout(hoverTimeoutRef.current);
+      }
+    };
+  }, []);
+
   return (
     <>
       <Marker 
@@ -123,8 +307,8 @@ const EventMarker = ({ event, onJoin, onLeave, onDelete, onShowChat, currentUser
         }}
       />
       
-      {/* Hover Popup - Always on top */}
-      {isHovered && (
+      {/* OLD POPUP CODE - NOT USED */}
+      {isHovered && false && (
         <>
           {/* Backdrop - click anywhere to close */}
           <div 
@@ -621,9 +805,6 @@ const FreeMapView = ({ events, selectedEvent, onEventSelect, onEventDeselect, on
             onDelete={deleteEvent}
             onShowChat={onShowChat}
             currentUserId={user?.id}
-            isHovered={hoveredEventId === event.id}
-            onHover={(eventId) => setHoveredEventId(eventId)}
-            onLeaveHover={() => setHoveredEventId(null)}
           />
         ))}
       </MapContainer>
