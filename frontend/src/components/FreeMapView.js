@@ -170,38 +170,70 @@ const EventMarker = ({ event, onJoin, onLeave, onShowChat, currentUserId }) => {
   );
 };
 
-const MapControls = ({ onFilterChange, selectedFilter }) => {
+const MapControls = ({ onFilterChange, selectedFilter, eventCounts }) => {
   const eventTypes = Object.entries(EVENT_TYPE_CONFIG);
 
   return (
-    <div className="absolute top-4 left-4 z-1000 bg-white rounded-lg shadow-lg p-2 space-y-1">
-      <div className="mb-2">
+    <div className="absolute top-4 left-4 z-1000 bg-white/90 backdrop-blur-sm rounded-2xl shadow-xl border border-gray-200 p-4 min-w-[200px]">
+      {/* Header */}
+      <div className="mb-4">
+        <h3 className="text-sm font-semibold text-gray-800 mb-2">Filter Events</h3>
         <button
           onClick={() => onFilterChange('all')}
-          className={`w-full text-xs px-2 py-1 rounded transition-colors ${
+          className={`w-full px-3 py-2 rounded-xl text-sm font-medium transition-all duration-200 ${
             selectedFilter === 'all' 
-              ? 'bg-emerald-100 text-emerald-700 font-medium' 
-              : 'hover:bg-gray-100'
+              ? 'bg-gradient-to-r from-emerald-500 to-teal-500 text-white shadow-lg transform scale-105' 
+              : 'bg-gray-100 hover:bg-gray-200 text-gray-700'
           }`}
         >
-          All Events
+          <div className="flex items-center justify-between">
+            <span>🌟 All Events</span>
+            <span className="text-xs opacity-80">{eventCounts.all}</span>
+          </div>
         </button>
       </div>
       
-      {eventTypes.map(([type, config]) => (
-        <button
-          key={type}
-          onClick={() => onFilterChange(type)}
-          className={`w-8 h-8 rounded-lg flex items-center justify-center text-sm transition-colors ${
-            selectedFilter === type 
-              ? 'bg-emerald-100 ring-2 ring-emerald-500' 
-              : 'hover:bg-gray-100'
-          }`}
-          title={config.label}
-        >
-          <span style={{ color: config.color }}>{config.icon}</span>
-        </button>
-      ))}
+      {/* Event Types Grid */}
+      <div className="space-y-2">
+        {eventTypes.map(([type, config]) => {
+          const count = eventCounts[type] || 0;
+          const isSelected = selectedFilter === type;
+          
+          return (
+            <button
+              key={type}
+              onClick={() => onFilterChange(type)}
+              className={`w-full p-3 rounded-xl transition-all duration-200 transform hover:scale-105 ${
+                isSelected 
+                  ? `bg-gradient-to-r ${config.gradient} text-white shadow-lg` 
+                  : 'bg-gray-50 hover:bg-gray-100 text-gray-700'
+              }`}
+              title={`${config.label} (${count} events)`}
+            >
+              <div className="flex items-center justify-between">
+                <div className="flex items-center space-x-2">
+                  <span className="text-lg">{config.icon}</span>
+                  <span className="text-sm font-medium">{config.label}</span>
+                </div>
+                <span className={`text-xs px-2 py-1 rounded-full ${
+                  isSelected 
+                    ? 'bg-white/20 text-white' 
+                    : 'bg-gray-200 text-gray-600'
+                }`}>
+                  {count}
+                </span>
+              </div>
+            </button>
+          );
+        })}
+      </div>
+
+      {/* Footer */}
+      <div className="mt-4 pt-3 border-t border-gray-200">
+        <div className="text-xs text-gray-500 text-center">
+          🆓 Free OpenStreetMap
+        </div>
+      </div>
     </div>
   );
 };
