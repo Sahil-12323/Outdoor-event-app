@@ -94,29 +94,74 @@ const EventForm = ({ onClose, onSubmit }) => {
     setShowEventTypeDropdown(false);
   };
 
-  // Search for location suggestions using Google Places API
+  // Popular locations in India for outdoor activities
+  const popularLocations = [
+    { name: "Mumbai", full: "Mumbai, Maharashtra, India", type: "city" },
+    { name: "Pune", full: "Pune, Maharashtra, India", type: "city" },
+    { name: "Bangalore", full: "Bangalore, Karnataka, India", type: "city" },
+    { name: "Delhi", full: "Delhi, India", type: "city" },
+    { name: "Goa", full: "Goa, India", type: "state" },
+    { name: "Manali", full: "Manali, Himachal Pradesh, India", type: "hill_station" },
+    { name: "Rishikesh", full: "Rishikesh, Uttarakhand, India", type: "adventure" },
+    { name: "Ooty", full: "Ooty, Tamil Nadu, India", type: "hill_station" },
+    { name: "Lonavala", full: "Lonavala, Maharashtra, India", type: "hill_station" },
+    { name: "Mahabaleshwar", full: "Mahabaleshwar, Maharashtra, India", type: "hill_station" },
+    { name: "Sanjay Gandhi National Park", full: "Sanjay Gandhi National Park, Mumbai, Maharashtra", type: "park" },
+    { name: "Marine Drive", full: "Marine Drive, Mumbai, Maharashtra", type: "landmark" },
+    { name: "Gateway of India", full: "Gateway of India, Mumbai, Maharashtra", type: "landmark" },
+    { name: "Juhu Beach", full: "Juhu Beach, Mumbai, Maharashtra", type: "beach" },
+    { name: "Karnala Fort", full: "Karnala Fort, Panvel, Maharashtra", type: "fort" }
+  ];
+
+  // Search for location suggestions (hybrid approach)
   const searchLocationSuggestions = async (input) => {
-    if (!input.trim()) return;
+    if (!input.trim() || input.length < 2) {
+      setLocationSuggestions([]);
+      setShowLocationDropdown(false);
+      return;
+    }
     
     setIsLoadingPlaces(true);
+    
+    // Filter popular locations first
+    const filteredPopular = popularLocations.filter(loc =>
+      loc.name.toLowerCase().includes(input.toLowerCase()) ||
+      loc.full.toLowerCase().includes(input.toLowerCase())
+    );
+
+    // Create suggestions in the expected format
+    const suggestions = filteredPopular.map((loc, index) => ({
+      place_id: `popular_${index}`,
+      description: loc.full,
+      structured_formatting: {
+        main_text: loc.name,
+        secondary_text: loc.full.replace(loc.name + ', ', '')
+      }
+    }));
+
+    setLocationSuggestions(suggestions.slice(0, 5));
+    setShowLocationDropdown(suggestions.length > 0);
+    setIsLoadingPlaces(false);
+
+    // Optional: Try Google Places API as backup (if CORS allows)
     try {
-      const response = await fetch(
-        `https://maps.googleapis.com/maps/api/place/autocomplete/json?input=${encodeURIComponent(input)}&key=${process.env.REACT_APP_GOOGLE_MAPS_API_KEY}&components=country:in`
-      );
+      const corsProxy = 'https://api.allorigins.win/raw?url=';
+      const placesUrl = `https://maps.googleapis.com/maps/api/place/autocomplete/json?input=${encodeURIComponent(input)}&key=${process.env.REACT_APP_GOOGLE_MAPS_API_KEY}&components=country:in`;
       
+      const response = await fetch(corsProxy + encodeURIComponent(placesUrl));
       if (response.ok) {
         const data = await response.json();
-        if (data.predictions) {
-          setLocationSuggestions(data.predictions.slice(0, 5)); // Show top 5 suggestions
-          setShowLocationDropdown(true);
+        if (data.predictions && data.predictions.length > 0) {
+          const googleSuggestions = data.predictions.slice(0, 3).map(pred => ({
+            ...pred,
+            place_id: `google_${pred.place_id}`
+          }));
+          setLocationSuggestions([...suggestions.slice(0, 2), ...googleSuggestions]);
         }
       }
     } catch (error) {
-      console.error('Places API error:', error);
-      // Fallback to geocoding for basic suggestions
-      setLocationSuggestions([]);
-    } finally {
-      setIsLoadingPlaces(false);
+      // Silently fail for Google Places API, use popular locations only
+      console.log('Google Places API not accessible, using local suggestions');
     }
   };
 
