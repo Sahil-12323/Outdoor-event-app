@@ -1,0 +1,118 @@
+╔═══════════════════════════════════════════════════════════════╗
+║                                                               ║
+║          🔧 FIX: Authentication Failed Error 🔧              ║
+║                                                               ║
+╚═══════════════════════════════════════════════════════════════╝
+
+⚠️  ERROR: "Authentication failed"
+
+═══════════════════════════════════════════════════════════════
+
+🎯 MOST LIKELY CAUSE: MongoDB is not running
+
+═══════════════════════════════════════════════════════════════
+
+✅ QUICK FIX:
+
+1️⃣  START MONGODB:
+
+   Windows:
+     net start MongoDB
+
+   Mac:
+     brew services start mongodb-community
+
+   Linux:
+     sudo systemctl start mongod
+
+2️⃣  VERIFY MONGODB IS RUNNING:
+
+   mongosh
+   
+   Should connect successfully. Type 'exit' to quit.
+
+3️⃣  RESTART BACKEND:
+
+   - Stop backend (Ctrl+C in backend terminal)
+   - Start again:
+     cd backend
+     python3 server.py
+   
+   - Wait for:
+     INFO:     Uvicorn running on http://0.0.0.0:8001
+     INFO:__main__:Database indexes created successfully
+
+4️⃣  TEST BACKEND:
+
+   curl http://localhost:8001/api/
+   
+   Should return:
+   {"message":"TrailMeet API is running","status":"healthy"}
+
+5️⃣  REFRESH BROWSER:
+
+   http://localhost:3000
+   Press Ctrl+Shift+R (hard refresh)
+
+═══════════════════════════════════════════════════════════════
+
+🔍 CHECK BACKEND TERMINAL:
+
+Look for errors like:
+  ❌ ServerSelectionTimeoutError
+  ❌ Could not connect to MongoDB
+  ❌ Connection refused
+
+If you see these, MongoDB is NOT running.
+
+═══════════════════════════════════════════════════════════════
+
+💡 ALTERNATIVE: Use MongoDB Atlas (Cloud)
+
+If local MongoDB won't work:
+
+1. Sign up: https://www.mongodb.com/cloud/atlas (FREE)
+2. Create free cluster (M0)
+3. Get connection string
+4. Update backend/.env:
+   MONGO_URL=mongodb+srv://user:pass@cluster.mongodb.net/
+
+5. Restart backend
+
+═══════════════════════════════════════════════════════════════
+
+📋 VERIFY THESE FILES EXIST:
+
+  backend/.env:
+    MONGO_URL=mongodb://localhost:27017
+    DB_NAME=trailmeet
+    CORS_ORIGINS=http://localhost:3000,http://localhost:8001
+
+  frontend/.env:
+    REACT_APP_BACKEND_URL=http://localhost:8001
+
+═══════════════════════════════════════════════════════════════
+
+🎯 COMPLETE TEST:
+
+Run these in order:
+
+1. mongosh
+   (Should connect - type exit)
+
+2. cd backend && python3 server.py
+   (Should start without errors)
+
+3. curl http://localhost:8001/api/
+   (Should return healthy status)
+
+4. cd frontend && yarn start
+   (Should compile successfully)
+
+5. Open http://localhost:3000
+   (Should load the app)
+
+═══════════════════════════════════════════════════════════════
+
+📖 DETAILED GUIDE: See FIX_AUTHENTICATION_ERROR.md
+
