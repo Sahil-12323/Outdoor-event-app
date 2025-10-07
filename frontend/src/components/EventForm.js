@@ -69,29 +69,84 @@ const EventForm = ({ onClose, onSubmit }) => {
 
   // Event types are now free form - no more filtering needed!
 
-  // Popular locations in India for outdoor activities with coordinates
+  // Popular locations including cities, malls, parks, and landmarks
   const popularLocations = [
+    // Cities
     { name: "Mumbai", full: "Mumbai, Maharashtra, India", type: "city", lat: 19.0760, lng: 72.8777 },
     { name: "Pune", full: "Pune, Maharashtra, India", type: "city", lat: 18.5204, lng: 73.8567 },
     { name: "Bangalore", full: "Bangalore, Karnataka, India", type: "city", lat: 12.9716, lng: 77.5946 },
     { name: "Delhi", full: "Delhi, India", type: "city", lat: 28.7041, lng: 77.1025 },
     { name: "Goa", full: "Goa, India", type: "state", lat: 15.2993, lng: 74.1240 },
-    { name: "Manali", full: "Manali, Himachal Pradesh, India", type: "hill_station", lat: 32.2396, lng: 77.1887 },
-    { name: "Rishikesh", full: "Rishikesh, Uttarakhand, India", type: "adventure", lat: 30.0869, lng: 78.2676 },
-    { name: "Ooty", full: "Ooty, Tamil Nadu, India", type: "hill_station", lat: 11.4102, lng: 76.6950 },
-    { name: "Lonavala", full: "Lonavala, Maharashtra, India", type: "hill_station", lat: 18.7537, lng: 73.4074 },
-    { name: "Mahabaleshwar", full: "Mahabaleshwar, Maharashtra, India", type: "hill_station", lat: 17.9234, lng: 73.6581 },
-    { name: "Sanjay Gandhi National Park", full: "Sanjay Gandhi National Park, Mumbai, Maharashtra", type: "park", lat: 19.2094, lng: 72.9570 },
-    { name: "Marine Drive", full: "Marine Drive, Mumbai, Maharashtra", type: "landmark", lat: 18.9434, lng: 72.8234 },
-    { name: "Gateway of India", full: "Gateway of India, Mumbai, Maharashtra", type: "landmark", lat: 18.9220, lng: 72.8347 },
-    { name: "Juhu Beach", full: "Juhu Beach, Mumbai, Maharashtra", type: "beach", lat: 19.1075, lng: 72.8263 },
-    { name: "Karnala Fort", full: "Karnala Fort, Panvel, Maharashtra", type: "fort", lat: 18.9050, lng: 73.1047 },
-    { name: "Chhatrapati Shivaji Park", full: "Chhatrapati Shivaji Park, Mumbai, Maharashtra", type: "park", lat: 19.0260, lng: 72.8397 },
-    { name: "Powai Lake", full: "Powai Lake, Mumbai, Maharashtra", type: "lake", lat: 19.1197, lng: 72.9078 },
-    { name: "Elephanta Caves", full: "Elephanta Caves, Mumbai, Maharashtra", type: "heritage", lat: 18.9633, lng: 72.9314 }
+    { name: "Chennai", full: "Chennai, Tamil Nadu, India", type: "city", lat: 13.0827, lng: 80.2707 },
+    { name: "Hyderabad", full: "Hyderabad, Telangana, India", type: "city", lat: 17.3850, lng: 78.4867 },
+    { name: "Kolkata", full: "Kolkata, West Bengal, India", type: "city", lat: 22.5726, lng: 88.3639 },
+    
+    // Malls - Mumbai
+    { name: "Phoenix Marketcity Mumbai", full: "Phoenix Marketcity, Kurla, Mumbai", type: "mall", lat: 19.0881, lng: 72.8911 },
+    { name: "Inorbit Mall Mumbai", full: "Inorbit Mall, Malad, Mumbai", type: "mall", lat: 19.1761, lng: 72.8337 },
+    { name: "High Street Phoenix", full: "High Street Phoenix, Lower Parel, Mumbai", type: "mall", lat: 19.0065, lng: 72.8292 },
+    { name: "R City Mall", full: "R City Mall, Ghatkopar, Mumbai", type: "mall", lat: 19.0866, lng: 72.9081 },
+    { name: "Oberoi Mall", full: "Oberoi Mall, Goregaon, Mumbai", type: "mall", lat: 19.1579, lng: 72.8362 },
+    { name: "Growel's 101 Mall", full: "Growel's 101 Mall, Kandivali, Mumbai", type: "mall", lat: 19.2102, lng: 72.8471 },
+    
+    // Malls - Pune
+    { name: "Phoenix Marketcity Pune", full: "Phoenix Marketcity, Viman Nagar, Pune", type: "mall", lat: 18.5679, lng: 73.9143 },
+    { name: "Amanora Town Centre", full: "Amanora Town Centre, Hadapsar, Pune", type: "mall", lat: 18.5089, lng: 73.9249 },
+    { name: "Seasons Mall Pune", full: "Seasons Mall, Magarpatta, Pune", type: "mall", lat: 18.5139, lng: 73.9359 },
+    
+    // Malls - Bangalore
+    { name: "Phoenix Marketcity Bangalore", full: "Phoenix Marketcity, Whitefield, Bangalore", type: "mall", lat: 12.9976, lng: 77.6978 },
+    { name: "UB City Bangalore", full: "UB City Mall, Vittal Mallya Road, Bangalore", type: "mall", lat: 12.9719, lng: 77.5997 },
+    { name: "Orion Mall Bangalore", full: "Orion Mall, Rajajinagar, Bangalore", type: "mall", lat: 12.9887, lng: 77.5431 },
+    { name: "Forum Mall Koramangala", full: "Forum Mall, Koramangala, Bangalore", type: "mall", lat: 12.9346, lng: 77.6119 },
+    { name: "Mantri Square Mall", full: "Mantri Square Mall, Malleshwaram, Bangalore", type: "mall", lat: 13.0042, lng: 77.5709 },
+    
+    // Malls - Delhi/NCR
+    { name: "Select Citywalk Delhi", full: "Select Citywalk, Saket, New Delhi", type: "mall", lat: 28.5245, lng: 77.2174 },
+    { name: "DLF Mall of India", full: "DLF Mall of India, Noida", type: "mall", lat: 28.5677, lng: 77.3269 },
+    { name: "Ambience Mall Gurgaon", full: "Ambience Mall, Gurgaon, Haryana", type: "mall", lat: 28.4743, lng: 77.0711 },
+    { name: "DLF Promenade", full: "DLF Promenade, Vasant Kunj, Delhi", type: "mall", lat: 28.5244, lng: 77.1582 },
+    { name: "Pacific Mall Delhi", full: "Pacific Mall, Subhash Nagar, Delhi", type: "mall", lat: 28.6402, lng: 77.1047 },
+    
+    // Parks & Recreation
+    { name: "Sanjay Gandhi National Park", full: "Sanjay Gandhi National Park, Mumbai", type: "park", lat: 19.2094, lng: 72.9570 },
+    { name: "Chhatrapati Shivaji Park", full: "Chhatrapati Shivaji Park, Mumbai", type: "park", lat: 19.0260, lng: 72.8397 },
+    { name: "Cubbon Park", full: "Cubbon Park, Bangalore", type: "park", lat: 12.9763, lng: 77.5928 },
+    { name: "Lalbagh Gardens", full: "Lalbagh Botanical Garden, Bangalore", type: "park", lat: 12.9507, lng: 77.5848 },
+    { name: "Lodhi Garden", full: "Lodhi Garden, New Delhi", type: "park", lat: 28.5933, lng: 77.2180 },
+    { name: "India Gate", full: "India Gate, New Delhi", type: "landmark", lat: 28.6129, lng: 77.2295 },
+    
+    // Beaches
+    { name: "Juhu Beach", full: "Juhu Beach, Mumbai", type: "beach", lat: 19.1075, lng: 72.8263 },
+    { name: "Versova Beach", full: "Versova Beach, Mumbai", type: "beach", lat: 19.1349, lng: 72.8114 },
+    { name: "Marina Beach", full: "Marina Beach, Chennai", type: "beach", lat: 13.0499, lng: 80.2824 },
+    { name: "Calangute Beach", full: "Calangute Beach, Goa", type: "beach", lat: 15.5394, lng: 73.7554 },
+    { name: "Baga Beach", full: "Baga Beach, Goa", type: "beach", lat: 15.5557, lng: 73.7516 },
+    
+    // Heritage & Landmarks
+    { name: "Gateway of India", full: "Gateway of India, Mumbai", type: "landmark", lat: 18.9220, lng: 72.8347 },
+    { name: "Marine Drive", full: "Marine Drive, Mumbai", type: "landmark", lat: 18.9434, lng: 72.8234 },
+    { name: "Elephanta Caves", full: "Elephanta Caves, Mumbai", type: "heritage", lat: 18.9633, lng: 72.9314 },
+    { name: "Taj Mahal", full: "Taj Mahal, Agra", type: "heritage", lat: 27.1751, lng: 78.0421 },
+    { name: "Qutub Minar", full: "Qutub Minar, New Delhi", type: "heritage", lat: 28.5245, lng: 77.1855 },
+    { name: "Red Fort", full: "Red Fort, New Delhi", type: "heritage", lat: 28.6562, lng: 77.2410 },
+    
+    // Hill Stations
+    { name: "Manali", full: "Manali, Himachal Pradesh", type: "hill_station", lat: 32.2396, lng: 77.1887 },
+    { name: "Rishikesh", full: "Rishikesh, Uttarakhand", type: "adventure", lat: 30.0869, lng: 78.2676 },
+    { name: "Ooty", full: "Ooty, Tamil Nadu", type: "hill_station", lat: 11.4102, lng: 76.6950 },
+    { name: "Lonavala", full: "Lonavala, Maharashtra", type: "hill_station", lat: 18.7537, lng: 73.4074 },
+    { name: "Mahabaleshwar", full: "Mahabaleshwar, Maharashtra", type: "hill_station", lat: 17.9234, lng: 73.6581 },
+    
+    // Restaurants & Cafes (Popular chains)
+    { name: "Bandra Kurla Complex", full: "Bandra Kurla Complex, Mumbai", type: "business", lat: 19.0664, lng: 72.8679 },
+    { name: "Connaught Place", full: "Connaught Place, New Delhi", type: "business", lat: 28.6315, lng: 77.2167 },
+    { name: "MG Road Bangalore", full: "MG Road, Bangalore", type: "business", lat: 12.9750, lng: 77.6060 },
+    { name: "Koramangala", full: "Koramangala, Bangalore", type: "locality", lat: 12.9279, lng: 77.6271 },
+    { name: "Powai Lake", full: "Powai Lake, Mumbai", type: "lake", lat: 19.1197, lng: 72.9078 }
   ];
 
-  // Search for location suggestions (free approach)
+  // Search for location suggestions using OpenStreetMap Nominatim API (FREE!)
   const searchLocationSuggestions = async (input) => {
     if (!input.trim() || input.length < 2) {
       setLocationSuggestions([]);
@@ -101,30 +156,108 @@ const EventForm = ({ onClose, onSubmit }) => {
     
     setIsLoadingPlaces(true);
     
-    // Filter popular locations
-    const filteredPopular = popularLocations.filter(loc =>
-      loc.name.toLowerCase().includes(input.toLowerCase()) ||
-      loc.full.toLowerCase().includes(input.toLowerCase())
-    );
+    try {
+      // Use OpenStreetMap Nominatim API for location search
+      // This is completely FREE and doesn't require an API key!
+      const response = await fetch(
+        `https://nominatim.openstreetmap.org/search?` +
+        `q=${encodeURIComponent(input)}&` +
+        `format=json&` +
+        `limit=8&` +
+        `addressdetails=1`,
+        {
+          headers: {
+            'Accept': 'application/json',
+            // Be a good citizen - identify your app
+            'User-Agent': 'TrailMeet Event App'
+          }
+        }
+      );
 
-    // Create suggestions in the expected format
-    const suggestions = filteredPopular.map((loc, index) => ({
-      place_id: `popular_${index}`,
-      description: loc.full,
-      structured_formatting: {
-        main_text: loc.name,
-        secondary_text: loc.full.replace(loc.name + ', ', '')
+      if (response.ok) {
+        const places = await response.json();
+        
+        // Transform OpenStreetMap results to our format
+        const suggestions = places.map(place => ({
+          place_id: place.place_id,
+          description: place.display_name,
+          structured_formatting: {
+            main_text: place.name || place.display_name.split(',')[0],
+            secondary_text: place.display_name.split(',').slice(1).join(',').trim()
+          },
+          lat: parseFloat(place.lat),
+          lng: parseFloat(place.lon),
+          osm_type: place.type
+        }));
+
+        setLocationSuggestions(suggestions);
+        setShowLocationDropdown(suggestions.length > 0);
+      } else {
+        // Fallback to popular locations if API fails
+        const filteredPopular = popularLocations.filter(loc =>
+          loc.name.toLowerCase().includes(input.toLowerCase()) ||
+          loc.full.toLowerCase().includes(input.toLowerCase())
+        );
+
+        const suggestions = filteredPopular.map((loc, index) => ({
+          place_id: `popular_${index}`,
+          description: loc.full,
+          structured_formatting: {
+            main_text: loc.name,
+            secondary_text: loc.full.replace(loc.name + ', ', '')
+          },
+          lat: loc.lat,
+          lng: loc.lng
+        }));
+
+        setLocationSuggestions(suggestions.slice(0, 8));
+        setShowLocationDropdown(suggestions.length > 0);
       }
-    }));
+    } catch (error) {
+      console.error('Location search error:', error);
+      
+      // Fallback to popular locations on error
+      const filteredPopular = popularLocations.filter(loc =>
+        loc.name.toLowerCase().includes(input.toLowerCase()) ||
+        loc.full.toLowerCase().includes(input.toLowerCase())
+      );
 
-    setLocationSuggestions(suggestions.slice(0, 8));
-    setShowLocationDropdown(suggestions.length > 0);
-    setIsLoadingPlaces(false);
+      const suggestions = filteredPopular.map((loc, index) => ({
+        place_id: `popular_${index}`,
+        description: loc.full,
+        structured_formatting: {
+          main_text: loc.name,
+          secondary_text: loc.full.replace(loc.name + ', ', '')
+        },
+        lat: loc.lat,
+        lng: loc.lng
+      }));
+
+      setLocationSuggestions(suggestions.slice(0, 8));
+      setShowLocationDropdown(suggestions.length > 0);
+    } finally {
+      setIsLoadingPlaces(false);
+    }
   };
 
   // Select a location suggestion
   const selectLocationSuggestion = async (suggestion) => {
     const address = suggestion.description;
+    
+    // If suggestion already has coordinates (from OpenStreetMap), use them directly
+    if (suggestion.lat && suggestion.lng) {
+      setFormData(prev => ({
+        ...prev,
+        location: {
+          lat: suggestion.lat,
+          lng: suggestion.lng,
+          address: address
+        }
+      }));
+      setShowLocationDropdown(false);
+      setError(''); // Clear any previous errors
+      return;
+    }
     
     // Check if this is a popular location with predefined coordinates
     const popularLocation = popularLocations.find(loc => 
@@ -144,17 +277,18 @@ const EventForm = ({ onClose, onSubmit }) => {
       setShowLocationDropdown(false);
       setError(''); // Clear any previous errors
     } else {
-      // For other locations, try geocoding
+      // For other locations, try geocoding with OpenStreetMap
       setFormData(prev => ({
         ...prev,
         location: { ...prev.location, address }
       }));
       setShowLocationDropdown(false);
-      await geocodeAddress(address);
+      await geocodeAddressWithOSM(address);
     }
   };
 
-  const geocodeAddress = async (address) => {
+  // Geocode address using OpenStreetMap Nominatim API
+  const geocodeAddressWithOSM = async (address) => {
     if (!address.trim()) return;
     
     setIsGeocodingLocation(true);
@@ -180,27 +314,62 @@ const EventForm = ({ onClose, onSubmit }) => {
         return;
       }
       
-      // Fallback: try to extract city/state and use default coordinates
-      const defaultCoords = getDefaultCoordinates(address);
-      if (defaultCoords) {
-        setFormData(prev => ({
-          ...prev,
-          location: {
-            lat: defaultCoords.lat,
-            lng: defaultCoords.lng,
-            address: address
+      // Use OpenStreetMap Nominatim for geocoding
+      const response = await fetch(
+        `https://nominatim.openstreetmap.org/search?` +
+        `q=${encodeURIComponent(address)}&` +
+        `format=json&` +
+        `limit=1`,
+        {
+          headers: {
+            'Accept': 'application/json',
+            'User-Agent': 'TrailMeet Event App'
           }
-        }));
+        }
+      );
+
+      if (response.ok) {
+        const results = await response.json();
+        
+        if (results && results.length > 0) {
+          const place = results[0];
+          setFormData(prev => ({
+            ...prev,
+            location: {
+              lat: parseFloat(place.lat),
+              lng: parseFloat(place.lon),
+              address: place.display_name || address
+            }
+          }));
+        } else {
+          // Fallback to default coordinates if no results
+          const defaultCoords = getDefaultCoordinates(address);
+          if (defaultCoords) {
+            setFormData(prev => ({
+              ...prev,
+              location: {
+                lat: defaultCoords.lat,
+                lng: defaultCoords.lng,
+                address: address
+              }
+            }));
+          } else {
+            setError('Location not found. Please select from the dropdown suggestions.');
+          }
+        }
       } else {
-        setError('Please select from the dropdown suggestions for accurate location.');
+        setError('Unable to find location. Please select from the dropdown suggestions.');
       }
     } catch (error) {
-      console.error('Location processing error:', error);
+      console.error('Geocoding error:', error);
       setError('Unable to process location. Please select from the dropdown suggestions.');
     } finally {
       setIsGeocodingLocation(false);
     }
   };
+
+  // Keep original function for backward compatibility
+  const geocodeAddress = geocodeAddressWithOSM;
   
   // Helper function to get default coordinates for common locations
   const getDefaultCoordinates = (address) => {

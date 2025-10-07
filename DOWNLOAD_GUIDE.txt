@@ -1,0 +1,66 @@
+╔═══════════════════════════════════════════════════════════════╗
+║                                                               ║
+║         🎯 How to Get the Code Without Git Clone 🎯          ║
+║                                                               ║
+╚═══════════════════════════════════════════════════════════════╝
+
+🚫 GETTING SSL ERROR WHEN CLONING?
+
+═══════════════════════════════════════════════════════════════
+
+✅ EASIEST SOLUTION - Download ZIP:
+
+1. Go to: https://github.com/Sahil-12323/Outdoor-event-app
+
+2. Click the green "Code" button (top right)
+
+3. Click "Download ZIP"
+
+4. Extract the ZIP file to your desired folder
+
+5. Open the extracted folder in VSCode
+
+6. Follow VSCode_LOCAL_SETUP.md
+
+═══════════════════════════════════════════════════════════════
+
+🔧 OR FIX GIT SSL ERROR:
+
+Quick Fix (Windows):
+  git config --global http.sslbackend schannel
+  git clone https://github.com/Sahil-12323/Outdoor-event-app.git
+
+Temporary Fix (All platforms):
+  git config --global http.sslVerify false
+  git clone https://github.com/Sahil-12323/Outdoor-event-app.git
+  git config --global http.sslVerify true
+
+═══════════════════════════════════════════════════════════════
+
+📖 MORE SOLUTIONS:
+
+See GIT_CLONE_HELP.md for detailed solutions
+
+═══════════════════════════════════════════════════════════════
+
+💡 ALREADY HAVE THE CODE?
+
+You already have all the code in this workspace!
+Just download/copy the /workspace/ directory to your local machine.
+
+All files are here:
+  ✅ Backend (FastAPI server)
+  ✅ Frontend (React app)
+  ✅ Setup scripts
+  ✅ Documentation
+
+═══════════════════════════════════════════════════════════════
+
+🎉 AFTER GETTING THE FILES:
+
+1. Open folder in VSCode
+2. Read VSCode_LOCAL_SETUP.md or START_HERE.txt
+3. Run setup script (run_locally.sh or run_locally.bat)
+4. Start backend and frontend
+5. Open http://localhost:3000
+

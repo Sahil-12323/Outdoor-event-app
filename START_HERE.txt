@@ -1,0 +1,57 @@
+╔═══════════════════════════════════════════════════════════════╗
+║                                                               ║
+║              🚀 TrailMeet - Local Setup Guide 🚀              ║
+║                                                               ║
+╚═══════════════════════════════════════════════════════════════╝
+
+📋 To run this app locally on your VSCode:
+
+1️⃣  OPEN: VSCode_LOCAL_SETUP.md (Complete step-by-step guide)
+2️⃣  OR: QUICK_START.md (Fast 5-step setup)
+
+═══════════════════════════════════════════════════════════════
+
+🎯 FASTEST WAY TO GET STARTED:
+
+  Mac/Linux Users:
+  ▶ ./run_locally.sh
+
+  Windows Users:
+  ▶ run_locally.bat
+
+  Then open TWO terminals:
+  Terminal 1: cd backend && python3 server.py
+  Terminal 2: cd frontend && yarn start
+
+  Open browser: http://localhost:3000
+
+═══════════════════════════════════════════════════════════════
+
+📚 DOCUMENTATION FILES:
+
+  📘 VSCode_LOCAL_SETUP.md  ← START HERE (Most detailed)
+  📗 QUICK_START.md         ← 5 steps to get running
+  📕 LOCAL_SETUP.md         ← Full installation guide
+  📙 README.md              ← Project overview
+
+═══════════════════════════════════════════════════════════════
+
+✅ PREREQUISITES NEEDED:
+
+  □ Node.js (v16+)         → https://nodejs.org/
+  □ Python (v3.8+)         → https://www.python.org/
+  □ MongoDB                → https://www.mongodb.com/
+  □ Yarn                   → npm install -g yarn
+
+═══════════════════════════════════════════════════════════════
+
+🌐 WHEN RUNNING, ACCESS:
+
+  Frontend:  http://localhost:3000
+  Backend:   http://localhost:8001/api/
+  API Docs:  http://localhost:8001/docs
+
+═══════════════════════════════════════════════════════════════
+
+Need help? Check VSCode_LOCAL_SETUP.md troubleshooting section!
+
