@@ -69,7 +69,7 @@ class Event(BaseModel):
     description: str = Field(..., min_length=1, max_length=2000)
     location: EventLocation
     event_date: datetime
-    event_type: str = Field(..., regex="^(hiking|camping|cycling|sports|workshop|festival|climbing|kayaking|running)$")
+    event_type: str = Field(..., pattern="^(hiking|camping|cycling|sports|workshop|festival|climbing|kayaking|running)$")
     capacity: Optional[int] = Field(None, gt=0, le=1000)
     created_by: str
     created_at: datetime = Field(default_factory=lambda: datetime.now(timezone.utc))
@@ -81,7 +81,7 @@ class EventCreate(BaseModel):
     description: str = Field(..., min_length=1, max_length=2000)
     location: EventLocation
     event_date: datetime
-    event_type: str = Field(..., regex="^(hiking|camping|cycling|sports|workshop|festival|climbing|kayaking|running)$")
+    event_type: str = Field(..., pattern="^(hiking|camping|cycling|sports|workshop|festival|climbing|kayaking|running)$")
     capacity: Optional[int] = Field(None, gt=0, le=1000)
 
 class ChatMessage(BaseModel):
