@@ -62,6 +62,19 @@
   pointer-events: none !important;
 }
 
+/* Ensure filter controls stay behind popup */
+.absolute.top-4.left-4 {
+  z-index: 1 !important;
+}
+
+.absolute.top-4.left-4 button {
+  z-index: 1 !important;
+}
+
+.absolute.top-4.left-4 div {
+  z-index: 1 !important;
+}
+
 @keyframes popupFadeIn {
   from {
     opacity: 0;
