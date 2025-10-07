@@ -344,11 +344,37 @@ function App() {
     }
   };
 
+  const deleteEvent = async (eventId) => {
+    try {
+      const token = localStorage.getItem('trailmeet_token');
+      const response = await fetch(`${API_BASE}/events/${eventId}`, {
+        method: 'DELETE',
+        headers: {
+          'Authorization': `Bearer ${token}`,
+          'Content-Type': 'application/json'
+        }
+      });
+
+      if (response.ok) {
+        await fetchEvents(); // Refresh events
+        setSelectedEvent(null); // Clear selected event
+        toast.success('Event deleted successfully');
+      } else {
+        const errorData = await response.json();
+        toast.error(errorData.detail || 'Failed to delete event');
+      }
+    } catch (error) {
+      console.error('Error deleting event:', error);
+      toast.error('Failed to delete event');
+    }
+  };
+
   const authValue = {
     user,
     logout,
     joinEvent,
     leaveEvent,
+    deleteEvent,
     isAuthenticated: !!user
   };
 

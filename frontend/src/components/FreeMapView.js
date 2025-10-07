@@ -42,7 +42,7 @@ const createCustomIcon = (eventType) => {
   });
 };
 
-const EventMarker = ({ event, onJoin, onLeave, onShowChat, currentUserId, isHovered, onHover, onLeaveHover }) => {
+const EventMarker = ({ event, onJoin, onLeave, onDelete, onShowChat, currentUserId, isHovered, onHover, onLeaveHover }) => {
   const config = getEventTypeConfig(event.event_type);
   const isParticipant = event.participants?.includes(currentUserId);
   const isCreator = event.created_by === currentUserId;
@@ -155,8 +155,35 @@ const EventMarker = ({ event, onJoin, onLeave, onShowChat, currentUserId, isHove
 
           {/* Action Buttons */}
           <div className="flex flex-wrap gap-2 pt-3 border-t border-gray-100">
-            {!isCreator && (
+            {isCreator ? (
               <>
+                {/* Creator sees Delete and Chat buttons */}
+                <button
+                  onClick={() => {
+                    if (window.confirm(`Are you sure you want to delete "${event.title}"? This will remove the event and all chat messages.`)) {
+                      onDelete(event.id);
+                      onLeaveHover();
+                    }
+                  }}
+                  className="flex-1 px-3 py-2 bg-gradient-to-r from-red-500 to-red-600 hover:from-red-600 hover:to-red-700 text-white text-sm rounded-lg font-medium transition-all transform hover:scale-105 shadow-md"
+                  data-testid="delete-event-btn"
+                >
+                  🗑️ Delete Event
+                </button>
+                <button
+                  onClick={() => {
+                    onShowChat(event);
+                    onLeaveHover();
+                  }}
+                  className="px-4 py-2 bg-gradient-to-r from-blue-500 to-blue-600 hover:from-blue-600 hover:to-blue-700 text-white text-sm rounded-lg font-medium transition-all transform hover:scale-105 shadow-md"
+                  data-testid="chat-btn"
+                >
+                  💬 Chat
+                </button>
+              </>
+            ) : (
+              <>
+                {/* Non-creators see Join/Leave button */}
                 {!isParticipant ? (
                   <button
                     onClick={() => {
@@ -180,20 +207,20 @@ const EventMarker = ({ event, onJoin, onLeave, onShowChat, currentUserId, isHove
                     ✗ Leave Event
                   </button>
                 )}
+                {/* Participants see Chat button */}
+                {isParticipant && (
+                  <button
+                    onClick={() => {
+                      onShowChat(event);
+                      onLeaveHover();
+                    }}
+                    className="px-4 py-2 bg-gradient-to-r from-blue-500 to-blue-600 hover:from-blue-600 hover:to-blue-700 text-white text-sm rounded-lg font-medium transition-all transform hover:scale-105 shadow-md"
+                    data-testid="chat-btn"
+                  >
+                    💬 Chat
+                  </button>
+                )}
               </>
-            )}
-
-            {(isParticipant || isCreator) && (
-              <button
-                onClick={() => {
-                  onShowChat(event);
-                  onLeaveHover();
-                }}
-                className="px-4 py-2 bg-gradient-to-r from-blue-500 to-blue-600 hover:from-blue-600 hover:to-blue-700 text-white text-sm rounded-lg font-medium transition-all transform hover:scale-105 shadow-md"
-                data-testid="chat-btn"
-              >
-                💬 Chat
-              </button>
             )}
 
             <button
@@ -480,7 +507,7 @@ const MapControls = ({ onFilterChange, selectedFilter, eventCounts, availableTyp
 };
 
 const FreeMapView = ({ events, selectedEvent, onEventSelect, onEventDeselect, onShowChat, userLocation, onLocationRefresh }) => {
-  const { user, joinEvent, leaveEvent } = useAuth();
+  const { user, joinEvent, leaveEvent, deleteEvent } = useAuth();
   const [mapCenter, setMapCenter] = useState([19.0760, 72.8777]); // Default fallback
   const [filter, setFilter] = useState('all');
   const [hoveredEventId, setHoveredEventId] = useState(null);
@@ -532,6 +559,7 @@ const FreeMapView = ({ events, selectedEvent, onEventSelect, onEventDeselect, on
             event={event}
             onJoin={joinEvent}
             onLeave={leaveEvent}
+            onDelete={deleteEvent}
             onShowChat={onShowChat}
             currentUserId={user?.id}
             isHovered={hoveredEventId === event.id}
