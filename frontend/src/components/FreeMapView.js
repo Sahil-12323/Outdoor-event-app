@@ -520,7 +520,7 @@ const FreeMapView = ({ events, selectedEvent, onEventSelect, onEventDeselect, on
       />
 
       {/* Compact Event Summary */}
-      <div className="absolute top-4 right-4 bg-white/95 backdrop-blur-sm rounded-lg shadow-lg border border-gray-200 p-3 z-1000">
+      <div className="absolute top-4 right-4 bg-white/95 backdrop-blur-sm rounded-lg shadow-lg border border-gray-200 p-3" style={{ zIndex: 40 }}>
         <div className="text-center min-w-[80px]">
           <div className="text-xl font-bold text-gray-900">
             {filteredEvents.length}
