@@ -53,7 +53,7 @@ const createCustomIcon = (eventType) => {
 };
 
 const EventMarker = ({ event, onJoin, onLeave, onShowChat, currentUserId }) => {
-  const config = EVENT_TYPE_CONFIG[event.event_type] || EVENT_TYPE_CONFIG.hiking;
+  const config = getEventTypeConfig(event.event_type);
   const isParticipant = event.participants?.includes(currentUserId);
   const isCreator = event.created_by === currentUserId;
 
