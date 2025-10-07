@@ -109,15 +109,17 @@
   display: none !important;
 }
 
-/* Ensure custom markers are clickable for hover */
+/* MARKERS: CLICK ONLY - ABSOLUTELY NO HOVER EFFECTS */
 .leaflet-marker-icon {
   cursor: pointer !important;
-  transition: transform 0.2s ease !important;
+  transition: none !important;
+  transform: none !important;
 }
 
+/* NO HOVER SCALING - COMPLETELY DISABLED */
 .leaflet-marker-icon:hover {
-  transform: scale(1.1) !important;
-  z-index: 1000 !important;
+  transform: none !important;
+  transition: none !important;
 }
 
 /* Text truncation utility */
@@ -297,14 +299,16 @@ body {
   background-color: #f9fafb;
 }
 
-/* Event Marker Styles */
+/* Event Marker Styles - CLICK ONLY, ZERO HOVER */
 .custom-marker {
-  cursor: pointer;
-  transition: transform 0.2s ease;
+  cursor: pointer !important;
+  transition: none !important;
+  transform: none !important;
 }
 
 .custom-marker:hover {
-  transform: scale(1.1);
+  transform: none !important;
+  transition: none !important;
 }
 
 .event-marker-pin {
@@ -336,20 +340,7 @@ body {
   opacity: 0.6;
 }
 
-@keyframes pulse {
-  0% {
-    transform: rotate(-45deg) scale(1);
-    opacity: 0.6;
-  }
-  50% {
-    transform: rotate(-45deg) scale(1.2);
-    opacity: 0.3;
-  }
-  100% {
-    transform: rotate(-45deg) scale(1);
-    opacity: 0.6;
-  }
-}
+/* Removed pulse animation - markers are static until clicked */
 
 /* Info Window Styles */
 .event-info-window {
