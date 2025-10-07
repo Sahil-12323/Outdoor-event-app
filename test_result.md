@@ -107,15 +107,18 @@ user_problem_statement: "User reported that when hovering over an event to see i
 frontend:
   - task: "Fix z-index layering for event hover popups"
     implemented: true
-    working: false # Needs verification
+    working: true
     file: "/app/frontend/src/components/FreeMapView.js"
     stuck_count: 0
     priority: "high"
-    needs_retesting: true
+    needs_retesting: false
     status_history:
         - working: false
           agent: "main"
           comment: "User reported hover popup hidden behind All Events button. Updated z-index values: hover popup backdrop to 999998, popup to 999999, filter button and other UI elements reduced to 10-20 range. Also updated CSS with z-index: 999999 !important."
+        - working: true
+          agent: "testing"
+          comment: "✅ Z-index layering fix SUCCESSFUL! Tested hover functionality on multiple event markers. Results: Filter button z-index: 10, Popup z-index: 999999, Backdrop z-index: 999998. Popup appears correctly above all UI elements including filter button. Popup is properly centered, backdrop visible, content readable, buttons clickable, and disappears correctly when mouse moves away. No overlapping issues detected."
 
 metadata:
   created_by: "main_agent"
