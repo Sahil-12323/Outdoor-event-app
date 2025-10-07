@@ -301,31 +301,27 @@ const FreeMapView = ({ events, selectedEvent, onEventSelect, onEventDeselect, on
         eventCounts={eventCounts}
       />
 
-      {/* Event Summary */}
-      <div className="absolute top-4 right-4 bg-white/90 backdrop-blur-sm rounded-2xl shadow-xl border border-gray-200 p-4 z-1000">
-        <div className="text-center">
-          <div className="text-2xl font-bold text-gray-900 mb-1">
+      {/* Compact Event Summary */}
+      <div className="absolute top-4 right-4 bg-white/95 backdrop-blur-sm rounded-lg shadow-lg border border-gray-200 p-3 z-1000">
+        <div className="text-center min-w-[80px]">
+          <div className="text-xl font-bold text-gray-900">
             {filteredEvents.length}
           </div>
-          <div className="text-xs text-gray-600 uppercase tracking-wide">
+          <div className="text-xs text-gray-600">
             {filteredEvents.length === 1 ? 'Event' : 'Events'}
           </div>
           {filter !== 'all' && (
-            <div className="mt-2 flex items-center justify-center space-x-1">
-              <span>{EVENT_TYPE_CONFIG[filter]?.icon}</span>
-              <span className="text-xs font-medium text-gray-700">
-                {EVENT_TYPE_CONFIG[filter]?.label}
-              </span>
+            <div className="mt-1 flex items-center justify-center space-x-1">
+              <span className="text-sm">{EVENT_TYPE_CONFIG[filter]?.icon}</span>
             </div>
           )}
         </div>
       </div>
 
-      {/* Quick Stats */}
-      <div className="absolute bottom-4 right-4 bg-white/90 backdrop-blur-sm rounded-2xl shadow-xl border border-gray-200 p-3 z-1000">
-        <div className="text-xs text-gray-500 text-center space-y-1">
-          <div>📍 Mumbai & Surroundings</div>
-          <div>🆓 Free Maps by OSM</div>
+      {/* Compact Location Info */}
+      <div className="absolute bottom-4 right-4 bg-white/95 backdrop-blur-sm rounded-lg shadow-lg border border-gray-200 px-3 py-2 z-1000">
+        <div className="text-xs text-gray-500 text-center">
+          📍 Mumbai
         </div>
       </div>
     </div>
