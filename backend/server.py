@@ -276,6 +276,27 @@ async def leave_event(event_id: str, current_user: User = Depends(get_current_us
     
     return {"message": "Successfully left the event"}
 
+@api_router.delete("/events/{event_id}")
+async def delete_event(event_id: str, current_user: User = Depends(get_current_user)):
+    """Delete an event (only creator can delete)"""
+    event = await db.events.find_one({"id": event_id})
+    if not event:
+        raise HTTPException(status_code=404, detail="Event not found")
+    
+    event = parse_from_mongo(event)
+    
+    # Only the event creator can delete the event
+    if event.get('created_by') != current_user.id:
+        raise HTTPException(status_code=403, detail="Only the event creator can delete this event")
+    
+    # Delete the event
+    await db.events.delete_one({"id": event_id})
+    
+    # Delete all chat messages for this event
+    await db.chat_messages.delete_many({"event_id": event_id})
+    
+    return {"message": "Event deleted successfully"}
+
 @api_router.get("/events/{event_id}/chat", response_model=List[ChatMessage])
 async def get_event_chat(event_id: str, current_user: User = Depends(get_current_user)):
     """Get chat messages for an event"""
