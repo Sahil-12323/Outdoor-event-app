@@ -296,26 +296,41 @@ const EventForm = ({ onClose, onSubmit }) => {
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
             <div className="form-group">
               <Label htmlFor="event_type">Event Type *</Label>
-              <Select
-                value={formData.event_type}
-                onValueChange={(value) => handleInputChange('event_type', value)}
-                required
-              >
-                <SelectTrigger data-testid="event-type-select">
-                  <SelectValue placeholder="Select event type" />
-                </SelectTrigger>
-                <SelectContent data-testid="event-type-options">
-                  {EVENT_TYPES.map((type) => (
-                    <SelectItem 
-                      key={type.value} 
-                      value={type.value}
-                      data-testid={`event-type-option-${type.value}`}
-                    >
-                      {type.label}
-                    </SelectItem>
-                  ))}
-                </SelectContent>
-              </Select>
+              <div className="relative" ref={eventTypeInputRef}>
+                <Input
+                  placeholder="Search or select event type..."
+                  value={eventTypeSearch || (formData.event_type ? EVENT_TYPES.find(t => t.value === formData.event_type)?.label : '')}
+                  onChange={(e) => handleEventTypeSearch(e.target.value)}
+                  onFocus={() => setShowEventTypeDropdown(true)}
+                  className="cursor-pointer"
+                  data-testid="event-type-search-input"
+                />
+                {showEventTypeDropdown && (
+                  <div 
+                    ref={eventTypeDropdownRef}
+                    className="absolute z-50 w-full mt-1 bg-white border border-gray-300 rounded-lg shadow-lg max-h-60 overflow-y-auto"
+                    data-testid="event-type-dropdown"
+                  >
+                    {filteredEventTypes.length > 0 ? (
+                      filteredEventTypes.map((type) => (
+                        <div
+                          key={type.value}
+                          onClick={() => selectEventType(type)}
+                          className="px-3 py-2 hover:bg-emerald-50 cursor-pointer flex items-center gap-2 border-b border-gray-100 last:border-b-0"
+                          data-testid={`event-type-option-${type.value}`}
+                        >
+                          <span className="text-lg">{type.label.split(' ')[1]}</span>
+                          <span className="text-gray-700">{type.label.split(' ')[0]}</span>
+                        </div>
+                      ))
+                    ) : (
+                      <div className="px-3 py-2 text-gray-500 text-sm">
+                        No event types found
+                      </div>
+                    )}
+                  </div>
+                )}
+              </div>
             </div>
 
             <div className="form-group">
