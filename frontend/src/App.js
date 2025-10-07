@@ -50,6 +50,126 @@ function App() {
     }
   }, [user]);
 
+  // Get user's current location
+  const getUserLocation = () => {
+    setLocationLoading(true);
+    setLocationError(null);
+
+    if (!navigator.geolocation) {
+      setLocationError('Geolocation is not supported by this browser');
+      setUserLocation({ lat: 19.0760, lng: 72.8777, city: 'Mumbai' }); // Default fallback
+      setLocationLoading(false);
+      return;
+    }
+
+    // Set timeout for location request
+    const timeoutId = setTimeout(() => {
+      setLocationError('Location request timed out');
+      setUserLocation({ lat: 19.0760, lng: 72.8777, city: 'Mumbai' }); // Default fallback
+      setLocationLoading(false);
+    }, 10000); // 10 second timeout
+
+    navigator.geolocation.getCurrentPosition(
+      async (position) => {
+        clearTimeout(timeoutId);
+        const { latitude, longitude } = position.coords;
+        
+        try {
+          // Reverse geocode to get city name
+          const cityName = await reverseGeocode(latitude, longitude);
+          setUserLocation({ 
+            lat: latitude, 
+            lng: longitude, 
+            city: cityName || 'Your Location',
+            accuracy: position.coords.accuracy 
+          });
+          toast.success(`📍 Located you in ${cityName || 'your area'}!`);
+        } catch (error) {
+          setUserLocation({ 
+            lat: latitude, 
+            lng: longitude, 
+            city: 'Your Location' 
+          });
+          toast.success('📍 Location detected successfully!');
+        }
+        setLocationLoading(false);
+      },
+      (error) => {
+        clearTimeout(timeoutId);
+        console.log('Geolocation error:', error);
+        
+        let errorMsg = 'Could not get your location';
+        switch (error.code) {
+          case error.PERMISSION_DENIED:
+            errorMsg = 'Location access denied by user';
+            toast.error('📍 Location access denied. Using default location.');
+            break;
+          case error.POSITION_UNAVAILABLE:
+            errorMsg = 'Location information unavailable';
+            toast.warning('📍 Location unavailable. Using default location.');
+            break;
+          case error.TIMEOUT:
+            errorMsg = 'Location request timed out';
+            toast.warning('📍 Location timeout. Using default location.');
+            break;
+        }
+        
+        setLocationError(errorMsg);
+        setUserLocation({ lat: 19.0760, lng: 72.8777, city: 'Mumbai' }); // Default fallback
+        setLocationLoading(false);
+      },
+      {
+        enableHighAccuracy: true,
+        timeout: 8000,
+        maximumAge: 300000 // 5 minutes cache
+      }
+    );
+  };
+
+  // Reverse geocode coordinates to city name
+  const reverseGeocode = async (lat, lng) => {
+    try {
+      // Using a simple approach to determine city based on coordinates
+      // You could integrate with a proper geocoding service here
+      const indianCities = [
+        { name: 'Mumbai', lat: 19.0760, lng: 72.8777, radius: 50 },
+        { name: 'Delhi', lat: 28.7041, lng: 77.1025, radius: 50 },
+        { name: 'Bangalore', lat: 12.9716, lng: 77.5946, radius: 40 },
+        { name: 'Pune', lat: 18.5204, lng: 73.8567, radius: 30 },
+        { name: 'Chennai', lat: 13.0827, lng: 80.2707, radius: 40 },
+        { name: 'Kolkata', lat: 22.5726, lng: 88.3639, radius: 40 },
+        { name: 'Hyderabad', lat: 17.3850, lng: 78.4867, radius: 40 },
+        { name: 'Ahmedabad', lat: 23.0225, lng: 72.5714, radius: 30 },
+        { name: 'Goa', lat: 15.2993, lng: 74.1240, radius: 50 }
+      ];
+
+      // Find closest city
+      let closestCity = null;
+      let minDistance = Infinity;
+
+      for (const city of indianCities) {
+        const distance = Math.sqrt(
+          Math.pow(lat - city.lat, 2) + Math.pow(lng - city.lng, 2)
+        );
+        
+        if (distance < minDistance) {
+          minDistance = distance;
+          closestCity = city;
+        }
+      }
+
+      // If within radius of a known city, return it
+      if (closestCity && minDistance < (closestCity.radius / 111)) { // Rough conversion to degrees
+        return closestCity.name;
+      }
+
+      return null; // Unknown location
+    } catch (error) {
+      console.error('Reverse geocoding error:', error);
+      return null;
+    }
+  };
+
   const initAuth = async () => {
     try {
       // Check for existing session token
