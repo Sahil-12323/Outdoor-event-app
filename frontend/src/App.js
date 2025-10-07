@@ -31,6 +31,11 @@ function App() {
   const [showEventForm, setShowEventForm] = useState(false);
   const [showChat, setShowChat] = useState(false);
   const [showProfile, setShowProfile] = useState(false);
+  
+  // Location states
+  const [userLocation, setUserLocation] = useState(null);
+  const [locationLoading, setLocationLoading] = useState(true);
+  const [locationError, setLocationError] = useState(null);
 
   // Initialize authentication
   useEffect(() => {
