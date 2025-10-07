@@ -378,7 +378,7 @@ const MapControls = ({ onFilterChange, selectedFilter, eventCounts, availableTyp
       {/* Filter Button */}
       <button
         onClick={() => setShowDropdown(!showDropdown)}
-        className="bg-white/20 rounded-xl shadow-lg border border-white/30 px-4 py-3 flex items-center space-x-2 hover:bg-white/30 transition-all duration-200 water-glass-effect"
+        className="bg-white/70 rounded-lg shadow-md border border-gray-200/50 px-3 py-2 flex items-center space-x-2 hover:bg-white/80 transition-all duration-200 text-sm"
         style={{ zIndex: 1 }}
       >
         <span className="text-lg">🎯</span>
