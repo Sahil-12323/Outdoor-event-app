@@ -168,10 +168,30 @@ const EventForm = ({ onClose, onSubmit }) => {
     }
   };
 
+  // Handle click outside to close dropdowns
+  useEffect(() => {
+    const handleClickOutside = (event) => {
+      if (locationDropdownRef.current && !locationDropdownRef.current.contains(event.target) &&
+          locationInputRef.current && !locationInputRef.current.contains(event.target)) {
+        setShowLocationDropdown(false);
+      }
+      if (eventTypeDropdownRef.current && !eventTypeDropdownRef.current.contains(event.target) &&
+          eventTypeInputRef.current && !eventTypeInputRef.current.contains(event.target)) {
+        setShowEventTypeDropdown(false);
+      }
+    };
+
+    document.addEventListener('mousedown', handleClickOutside);
+    return () => document.removeEventListener('mousedown', handleClickOutside);
+  }, []);
+
   const handleAddressBlur = () => {
-    if (formData.location.address && !formData.location.lat) {
-      geocodeAddress(formData.location.address);
-    }
+    // Delay to allow for dropdown selection
+    setTimeout(() => {
+      if (formData.location.address && !formData.location.lat && !showLocationDropdown) {
+        geocodeAddress(formData.location.address);
+      }
+    }, 200);
   };
 
   const validateForm = () => {
