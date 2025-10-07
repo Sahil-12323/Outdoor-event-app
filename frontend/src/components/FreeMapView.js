@@ -91,11 +91,9 @@ const EventMarker = ({ event, onJoin, onLeave, onShowChat, currentUserId, isHove
             }}
           />
           <div 
-            className="event-hover-popup bg-white rounded-xl shadow-2xl border border-gray-200 p-4 max-w-sm w-80"
+            className="event-hover-popup bg-white rounded-xl shadow-2xl border border-gray-200 p-4 max-w-sm w-80 responsive-popup"
             style={{
               position: 'fixed',
-              top: 'calc(50% - 200px)',
-              left: 'calc(50% - 160px)',
               zIndex: 9999999
             }}
             onMouseEnter={() => onHover(event.id)}
