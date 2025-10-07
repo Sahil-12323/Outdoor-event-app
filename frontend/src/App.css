@@ -91,6 +91,85 @@
   background: rgba(255, 255, 255, 0.8) !important;
 }
 
+/* Enhanced Create Event Button Styles */
+.stylish-create-button {
+  font-family: 'Fredoka', 'Poppins', sans-serif !important;
+  position: relative;
+  background: linear-gradient(135deg, #fbbf24, #f97316, #dc2626) !important;
+  box-shadow: 
+    0 10px 25px rgba(251, 191, 36, 0.4),
+    0 5px 15px rgba(249, 115, 22, 0.3),
+    inset 0 1px 0 rgba(255, 255, 255, 0.3) !important;
+  transform-style: preserve-3d;
+}
+
+.stylish-create-button:hover {
+  background: linear-gradient(135deg, #fcd34d, #fb923c, #ef4444) !important;
+  box-shadow: 
+    0 15px 35px rgba(251, 191, 36, 0.6),
+    0 8px 20px rgba(249, 115, 22, 0.4),
+    0 0 25px rgba(220, 38, 38, 0.3),
+    inset 0 1px 0 rgba(255, 255, 255, 0.4) !important;
+}
+
+.stylish-create-button:active {
+  transform: scale(1.05) translateY(-2px) !important;
+}
+
+/* Shimmer animation for button */
+@keyframes shimmer {
+  0% {
+    transform: translateX(-100%) rotate(45deg);
+  }
+  100% {
+    transform: translateX(200%) rotate(45deg);
+  }
+}
+
+.animate-shimmer {
+  animation: shimmer 2s infinite;
+}
+
+/* Bounce animation for rocket emoji */
+@keyframes bounce {
+  0%, 20%, 50%, 80%, 100% {
+    transform: translateY(0);
+  }
+  40% {
+    transform: translateY(-4px);
+  }
+  60% {
+    transform: translateY(-2px);
+  }
+}
+
+.animate-bounce {
+  animation: bounce 2s infinite;
+}
+
+/* Pulse animation for glow effect */
+@keyframes ping {
+  75%, 100% {
+    transform: scale(1.05);
+    opacity: 0;
+  }
+}
+
+.group-hover\:animate-ping:hover {
+  animation: ping 1s cubic-bezier(0, 0, 0.2, 1) infinite;
+}
+
+/* Additional text shadow for better readability */
+.stylish-create-button span {
+  text-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
+}
+
+/* Ensure the button stands out */
+.stylish-create-button {
+  z-index: 100;
+  isolation: isolate;
+}
+
 @keyframes popupFadeIn {
   from {
     opacity: 0;
