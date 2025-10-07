@@ -376,12 +376,12 @@ const MapControls = ({ onFilterChange, selectedFilter, eventCounts, availableTyp
   const [showDropdown, setShowDropdown] = useState(false);
 
   return (
-    <div className="absolute top-4 left-4" style={{ zIndex: 10 }}>
+    <div className="absolute top-4 left-4" style={{ zIndex: 1 }}>
       {/* Filter Button */}
       <button
         onClick={() => setShowDropdown(!showDropdown)}
         className="bg-white/95 backdrop-blur-sm rounded-xl shadow-lg border border-gray-200 px-4 py-3 flex items-center space-x-2 hover:bg-white transition-all duration-200"
-        style={{ zIndex: 10 }}
+        style={{ zIndex: 1 }}
       >
         <span className="text-lg">🎯</span>
         <span className="font-medium text-gray-700">
