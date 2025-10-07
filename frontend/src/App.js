@@ -228,8 +228,7 @@ function App() {
           {!user ? (
             <AuthWrapper />
           ) : (
-            <APIProvider apiKey={GOOGLE_MAPS_API_KEY}>
-              <div className="min-h-screen bg-gray-50">
+            <div className="min-h-screen bg-gray-50">
                 {/* Header */}
                 <header className="bg-white shadow-sm border-b border-gray-200 sticky top-0 z-40">
                   <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
