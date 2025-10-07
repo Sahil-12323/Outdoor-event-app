@@ -32,11 +32,62 @@
   z-index: 1000;
 }
 
+.z-10000 {
+  z-index: 10000;
+}
+
 /* Map container specific styles */
 .map-container {
   height: calc(100vh - 4rem) !important;
   width: 100% !important;
   position: relative;
+}
+
+/* Event hover popup styles */
+.event-hover-popup {
+  position: fixed !important;
+  z-index: 10000 !important;
+  pointer-events: auto !important;
+  backdrop-filter: blur(12px) !important;
+  background: rgba(255, 255, 255, 0.98) !important;
+  box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.25) !important;
+  border: 1px solid rgba(255, 255, 255, 0.3) !important;
+  animation: popupFadeIn 0.2s ease-out !important;
+}
+
+@keyframes popupFadeIn {
+  from {
+    opacity: 0;
+    transform: translate(-50%, -50%) scale(0.95);
+  }
+  to {
+    opacity: 1;
+    transform: translate(-50%, -50%) scale(1);
+  }
+}
+
+/* Remove default Leaflet popup styles that might interfere */
+.leaflet-popup-pane {
+  display: none !important;
+}
+
+/* Ensure custom markers are clickable for hover */
+.leaflet-marker-icon {
+  cursor: pointer !important;
+  transition: transform 0.2s ease !important;
+}
+
+.leaflet-marker-icon:hover {
+  transform: scale(1.1) !important;
+  z-index: 1000 !important;
+}
+
+/* Text truncation utility */
+.line-clamp-3 {
+  display: -webkit-box;
+  -webkit-line-clamp: 3;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
 }
 
 /* Enhanced Map Controls */
