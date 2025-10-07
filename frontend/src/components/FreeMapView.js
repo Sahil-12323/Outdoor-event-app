@@ -170,67 +170,148 @@ const EventMarker = ({ event, onJoin, onLeave, onShowChat, currentUserId }) => {
   );
 };
 
-const MapControls = ({ onFilterChange, selectedFilter, eventCounts }) => {
-  const eventTypes = Object.entries(EVENT_TYPE_CONFIG);
+// Helper function to get icon and color for any event type
+const getEventTypeConfig = (eventType) => {
+  const type = eventType.toLowerCase();
+  
+  // Predefined popular types
+  const typeMapping = {
+    hiking: { icon: '⛰️', color: '#059669', gradient: 'from-emerald-400 to-emerald-600' },
+    camping: { icon: '🏕️', color: '#0d9488', gradient: 'from-teal-400 to-teal-600' },
+    cycling: { icon: '🚵', color: '#0891b2', gradient: 'from-cyan-400 to-cyan-600' },
+    sports: { icon: '🏐', color: '#2563eb', gradient: 'from-blue-400 to-blue-600' },
+    workshop: { icon: '🎯', color: '#7c3aed', gradient: 'from-violet-400 to-violet-600' },
+    festival: { icon: '🎭', color: '#dc2626', gradient: 'from-red-400 to-red-600' },
+    climbing: { icon: '🧗‍♀️', color: '#ea580c', gradient: 'from-orange-400 to-orange-600' },
+    kayaking: { icon: '🏄', color: '#0284c7', gradient: 'from-sky-400 to-sky-600' },
+    running: { icon: '🏃‍♀️', color: '#16a34a', gradient: 'from-green-400 to-green-600' },
+    
+    // Dynamic types - auto-generate based on keywords
+    movie: { icon: '🎬', color: '#7c2d12', gradient: 'from-amber-400 to-orange-600' },
+    cinema: { icon: '🍿', color: '#7c2d12', gradient: 'from-amber-400 to-orange-600' },
+    concert: { icon: '🎵', color: '#be185d', gradient: 'from-pink-400 to-rose-600' },
+    music: { icon: '🎶', color: '#be185d', gradient: 'from-pink-400 to-rose-600' },
+    food: { icon: '🍕', color: '#dc2626', gradient: 'from-red-400 to-red-600' },
+    photography: { icon: '📸', color: '#1e40af', gradient: 'from-blue-400 to-indigo-600' },
+    art: { icon: '🎨', color: '#7c3aed', gradient: 'from-purple-400 to-violet-600' },
+    dance: { icon: '💃', color: '#be185d', gradient: 'from-pink-400 to-fuchsia-600' },
+    yoga: { icon: '🧘‍♀️', color: '#059669', gradient: 'from-emerald-400 to-teal-600' },
+    meditation: { icon: '🕯️', color: '#6b21a8', gradient: 'from-violet-400 to-purple-600' },
+    gaming: { icon: '🎮', color: '#1e40af', gradient: 'from-blue-400 to-purple-600' },
+    tech: { icon: '💻', color: '#374151', gradient: 'from-gray-400 to-slate-600' },
+    book: { icon: '📚', color: '#92400e', gradient: 'from-amber-400 to-yellow-600' },
+    study: { icon: '📖', color: '#92400e', gradient: 'from-amber-400 to-yellow-600' },
+    party: { icon: '🎉', color: '#dc2626', gradient: 'from-red-400 to-pink-600' },
+    networking: { icon: '🤝', color: '#059669', gradient: 'from-emerald-400 to-green-600' },
+    business: { icon: '💼', color: '#374151', gradient: 'from-gray-400 to-blue-600' }
+  };
+  
+  // Try exact match first
+  if (typeMapping[type]) {
+    return { ...typeMapping[type], label: eventType };
+  }
+  
+  // Try partial matches
+  for (const [key, config] of Object.entries(typeMapping)) {
+    if (type.includes(key) || key.includes(type)) {
+      return { ...config, label: eventType };
+    }
+  }
+  
+  // Default for unknown types
+  return { 
+    icon: '🎯', 
+    color: '#6b7280', 
+    gradient: 'from-gray-400 to-gray-600',
+    label: eventType 
+  };
+};
+
+const MapControls = ({ onFilterChange, selectedFilter, eventCounts, availableTypes }) => {
+  const [showDropdown, setShowDropdown] = useState(false);
 
   return (
-    <div className="absolute top-4 left-4 z-1000 bg-white/95 backdrop-blur-sm rounded-xl shadow-lg border border-gray-200 p-3 max-w-[180px]">
-      {/* All Events Button */}
+    <div className="absolute top-4 left-4 z-1000">
+      {/* Filter Button */}
       <button
-        onClick={() => onFilterChange('all')}
-        className={`w-full px-2 py-2 mb-3 rounded-lg text-xs font-medium transition-all duration-200 ${
-          selectedFilter === 'all' 
-            ? 'bg-gradient-to-r from-emerald-500 to-teal-500 text-white shadow-md' 
-            : 'bg-gray-100 hover:bg-gray-200 text-gray-700'
-        }`}
+        onClick={() => setShowDropdown(!showDropdown)}
+        className="bg-white/95 backdrop-blur-sm rounded-xl shadow-lg border border-gray-200 px-4 py-3 flex items-center space-x-2 hover:bg-white transition-all duration-200"
       >
-        <div className="flex items-center justify-between">
-          <span>🌟 All</span>
-          <span className="text-xs">{eventCounts.all}</span>
-        </div>
+        <span className="text-lg">🎯</span>
+        <span className="font-medium text-gray-700">
+          {selectedFilter === 'all' ? 'All Events' : getEventTypeConfig(selectedFilter).label}
+        </span>
+        <span className="text-xs bg-emerald-500 text-white px-2 py-1 rounded-full">
+          {selectedFilter === 'all' ? eventCounts.all : (eventCounts[selectedFilter] || 0)}
+        </span>
+        <svg className={`w-4 h-4 text-gray-500 transition-transform ${showDropdown ? 'rotate-180' : ''}`} fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
+        </svg>
       </button>
-      
-      {/* Event Types Compact Grid */}
-      <div className="grid grid-cols-3 gap-1">
-        {eventTypes.map(([type, config]) => {
-          const count = eventCounts[type] || 0;
-          const isSelected = selectedFilter === type;
-          
-          return (
-            <button
-              key={type}
-              onClick={() => onFilterChange(type)}
-              className={`relative p-2 rounded-lg transition-all duration-200 transform hover:scale-105 ${
-                isSelected 
-                  ? `bg-gradient-to-r ${config.gradient} text-white shadow-md` 
-                  : 'bg-gray-50 hover:bg-gray-100 text-gray-700'
-              }`}
-              title={`${config.label} (${count} events)`}
-            >
-              <div className="flex flex-col items-center">
-                <span className="text-sm mb-1">{config.icon}</span>
-                <span className="text-xs font-medium truncate w-full text-center">
-                  {config.label.slice(0, 4)}
-                </span>
-                {count > 0 && (
-                  <span className={`absolute -top-1 -right-1 w-4 h-4 text-xs rounded-full flex items-center justify-center ${
-                    isSelected 
-                      ? 'bg-white text-gray-700' 
-                      : 'bg-emerald-500 text-white'
-                  }`}>
-                    {count}
-                  </span>
-                )}
-              </div>
-            </button>
-          );
-        })}
-      </div>
 
-      {/* Compact Footer */}
-      <div className="mt-3 pt-2 border-t border-gray-200">
-        <div className="text-xs text-gray-500 text-center">🆓 OSM</div>
-      </div>
+      {/* Dropdown */}
+      {showDropdown && (
+        <div className="mt-2 bg-white/95 backdrop-blur-sm rounded-xl shadow-xl border border-gray-200 p-2 min-w-[200px] max-h-80 overflow-y-auto">
+          {/* All Events */}
+          <button
+            onClick={() => {
+              onFilterChange('all');
+              setShowDropdown(false);
+            }}
+            className={`w-full px-3 py-2 rounded-lg text-left transition-all duration-200 flex items-center justify-between ${
+              selectedFilter === 'all' 
+                ? 'bg-gradient-to-r from-emerald-500 to-teal-500 text-white' 
+                : 'hover:bg-gray-100 text-gray-700'
+            }`}
+          >
+            <div className="flex items-center space-x-2">
+              <span>🌟</span>
+              <span className="font-medium">All Events</span>
+            </div>
+            <span className={`text-xs px-2 py-1 rounded-full ${
+              selectedFilter === 'all' 
+                ? 'bg-white/20 text-white' 
+                : 'bg-gray-200 text-gray-600'
+            }`}>
+              {eventCounts.all}
+            </span>
+          </button>
+
+          {/* Dynamic Event Types */}
+          {availableTypes.map((type) => {
+            const config = getEventTypeConfig(type);
+            const count = eventCounts[type] || 0;
+            const isSelected = selectedFilter === type;
+            
+            return (
+              <button
+                key={type}
+                onClick={() => {
+                  onFilterChange(type);
+                  setShowDropdown(false);
+                }}
+                className={`w-full px-3 py-2 rounded-lg text-left transition-all duration-200 flex items-center justify-between mt-1 ${
+                  isSelected 
+                    ? `bg-gradient-to-r ${config.gradient} text-white` 
+                    : 'hover:bg-gray-100 text-gray-700'
+                }`}
+              >
+                <div className="flex items-center space-x-2">
+                  <span>{config.icon}</span>
+                  <span className="font-medium capitalize">{config.label}</span>
+                </div>
+                <span className={`text-xs px-2 py-1 rounded-full ${
+                  isSelected 
+                    ? 'bg-white/20 text-white' 
+                    : 'bg-gray-200 text-gray-600'
+                }`}>
+                  {count}
+                </span>
+              </button>
+            );
+          })}
+        </div>
+      )}
     </div>
   );
 };
