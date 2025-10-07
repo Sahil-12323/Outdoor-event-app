@@ -297,14 +297,10 @@ body {
   background-color: #f9fafb;
 }
 
-/* Event Marker Styles */
+/* Event Marker Styles - Click only, no hover */
 .custom-marker {
   cursor: pointer;
-  transition: transform 0.2s ease;
-}
-
-.custom-marker:hover {
-  transform: scale(1.1);
+  /* Removed transition and hover effects */
 }
 
 .event-marker-pin {
@@ -336,20 +332,7 @@ body {
   opacity: 0.6;
 }
 
-@keyframes pulse {
-  0% {
-    transform: rotate(-45deg) scale(1);
-    opacity: 0.6;
-  }
-  50% {
-    transform: rotate(-45deg) scale(1.2);
-    opacity: 0.3;
-  }
-  100% {
-    transform: rotate(-45deg) scale(1);
-    opacity: 0.6;
-  }
-}
+/* Removed pulse animation - markers are static until clicked */
 
 /* Info Window Styles */
 .event-info-window {
