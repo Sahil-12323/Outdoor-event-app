@@ -196,15 +196,28 @@ const EventMarker = ({ event, onJoin, onLeave, onShowChat, currentUserId, isHove
               </button>
             )}
 
-            <a
-              href={`https://www.google.com/maps/dir/?api=1&destination=${event.location.lat},${event.location.lng}`}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="px-4 py-2 bg-gradient-to-r from-gray-100 to-gray-200 hover:from-gray-200 hover:to-gray-300 text-gray-700 text-sm rounded-lg font-medium transition-all transform hover:scale-105 shadow-md"
+            <button
+              onClick={() => {
+                const lat = encodeURIComponent(event.location.lat);
+                const lng = encodeURIComponent(event.location.lng);
+                const address = encodeURIComponent(event.location.address || `${event.location.lat},${event.location.lng}`);
+                
+                // Try Google Maps app first, fallback to web version
+                const mapsUrl = `https://www.google.com/maps/dir/?api=1&destination=${lat},${lng}&destination_place_id=${address}`;
+                const fallbackUrl = `https://maps.google.com/?q=${lat},${lng}`;
+                
+                try {
+                  window.open(mapsUrl, '_blank');
+                } catch (error) {
+                  console.log('Fallback to basic maps URL');
+                  window.open(fallbackUrl, '_blank');
+                }
+              }}
+              className="px-4 py-2 bg-gradient-to-r from-blue-100 to-blue-200 hover:from-blue-200 hover:to-blue-300 text-blue-700 text-sm rounded-lg font-medium transition-all transform hover:scale-105 shadow-md"
               data-testid="directions-btn"
             >
               🧭 Directions
-            </a>
+            </button>
           </div>
         </div>
         </>
