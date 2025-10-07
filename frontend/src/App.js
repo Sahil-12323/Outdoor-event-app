@@ -451,7 +451,9 @@ function App() {
                             <span className="text-white font-bold text-sm">{events.length}</span>
                           </div>
                           <div className="flex items-center space-x-2 bg-white/10 backdrop-blur-sm rounded-full px-3 py-1.5 border border-white/20">
-                            <span className="text-white/90 text-xs font-medium">📍 Mumbai</span>
+                            <span className="text-white/90 text-xs font-medium">
+                              📍 {userLocation ? userLocation.city : 'Locating...'}
+                            </span>
                           </div>
                         </div>
                       </div>
