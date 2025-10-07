@@ -84,7 +84,7 @@ const EventMarker = ({ event, onJoin, onLeave, onShowChat, currentUserId, isHove
               left: 0,
               right: 0,
               bottom: 0,
-              zIndex: 99998,
+              zIndex: 999998,
               pointerEvents: 'none',
               backgroundColor: 'rgba(0, 0, 0, 0.1)'
             }}
@@ -96,7 +96,7 @@ const EventMarker = ({ event, onJoin, onLeave, onShowChat, currentUserId, isHove
               top: '50%',
               left: '50%',
               transform: 'translate(-50%, -50%)',
-              zIndex: 99999
+              zIndex: 999999
             }}
             onMouseEnter={() => onHover(event.id)}
             onMouseLeave={onLeaveHover}
